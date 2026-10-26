@@ -17,7 +17,7 @@ hyper-util = { version = "0.1", features = ["tokio"] }
 prost = "0.14"
 async-stream = "0.3"
 # crypto
-age = { version = "0.11", features = ["armor", "ssh", "plugin"] }
+age = { version = "0.12", features = ["armor", "ssh", "plugin"] }
 argon2 = "0.5"
 blake3 = "1"
 ed25519-dalek = { version = "2", features = ["rand_core", "zeroize"] }
