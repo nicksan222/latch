@@ -55,6 +55,11 @@ fn main() -> anyhow::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[cfg(feature = "containers")]
+    #[test]
+    fn desktop_container_suite_is_selectable() {
+        assert!(Cli::try_parse_from(["automation", "test-container", "desktop"]).is_ok());
+    }
     #[test]
     fn unknown_quality_actions_are_rejected() {
         assert!(Cli::try_parse_from(["automation", "rust", "typo"]).is_err());
