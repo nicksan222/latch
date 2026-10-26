@@ -112,6 +112,7 @@
     "test:all": "bun run test:rust && bun run test:seed && bun run test:dev && bun run typecheck && bun run test:quality && bun run test && bun run test:e2e",
     "test:browser": "cargo run --locked -p latch-automation --features containers --bin latch-automation -- test-container browser",
     "test:browser:native": "cargo run --locked -p latch-automation --bin latch-automation -- test-browser",
+    "test:desktop": "cargo run --locked -p latch-automation --features containers --bin latch-automation -- test-container desktop",
     "test:dev": "bun run --filter @latch/seeder --filter @latch/development test",
     "test:e2e": "node tooling/e2e/run.mjs",
     "test:features": "node tooling/quality/features.mjs",

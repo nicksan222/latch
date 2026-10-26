@@ -12,11 +12,13 @@ use testcontainers::{
 #[derive(Clone, Copy, Debug, ValueEnum)]
 pub enum Suite {
     Browser,
+    Desktop,
 }
 impl Suite {
     fn name(self) -> &'static str {
         match self {
             Self::Browser => "browser",
+            Self::Desktop => "desktop",
         }
     }
 }

@@ -1,0 +1,12 @@
+FROM test-base AS desktop-tests
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      clang lld libwebkit2gtk-4.1-dev libayatana-appindicator3-dev \
+      librsvg2-dev patchelf libxdo-dev \
+    && rm -rf /var/lib/apt/lists/*
+COPY --chown=vscode:vscode source/ /workspace/
+USER vscode
+RUN bun install --frozen-lockfile \
+    && bun run build:desktop \
+    && cargo build --locked -p latch-desktop -p latch-automation \
+    && cargo test --locked -p latch-desktop --no-run
+CMD ["dbus-run-session", "--", "xvfb-run", "-a", "cargo", "run", "--locked", "-p", "latch-automation", "--bin", "latch-automation", "--", "rust", "all", "--desktop"]
