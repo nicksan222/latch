@@ -57,7 +57,7 @@ serde_yaml = "0.9"
 tracing = "0.1"
 fs2 = "0.4"
 reqwest = { version = "0.12", default-features = false, features = ["blocking", "rustls-tls"] }
-zip = { version = "2.4", default-features = false, features = ["deflate"] }
+zip = { version = "9.0", default-features = false, features = ["deflate"] }
 regex = "1"
 libc = "0.2"
 arboard = { version = "3", default-features = false }
