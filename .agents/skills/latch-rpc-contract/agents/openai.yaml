@@ -1,0 +1,4 @@
+interface:
+  display_name: "Latch RPC contract"
+  short_description: "Change the shared Latch RPC contract safely"
+  default_prompt: "Use $latch-rpc-contract to update the Latch RPC contract."

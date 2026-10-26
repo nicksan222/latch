@@ -1,0 +1,303 @@
+[
+  {
+    "id": "rpc",
+    "sources": [
+      "packages/rpc/proto/latch/v1/agent.proto",
+      "packages/rpc/src/lib.rs",
+      "packages/rpc/src/sdk.rs",
+      "packages/core/src/rpc/mod.rs",
+      "packages/core/src/rpc/service.rs",
+      "packages/core/src/protocol.rs",
+      "packages/core/src/agent/dispatch.rs"
+    ],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "rpc_external"
+      }
+    ],
+    "browser": [],
+    "acceptance": [
+      "packages/core/src/rpc/tests/external/transport.rs",
+      "packages/core/src/rpc/tests/external/lifecycle.rs",
+      "packages/core/src/rpc/tests/external/kinds.rs",
+      "packages/core/src/rpc/tests/external/domain.rs",
+      "packages/core/src/rpc/tests/external/integrations.rs",
+      "packages/core/src/rpc/tests/external/maintenance.rs",
+      "packages/core/src/rpc/tests/external/sync.rs",
+      "packages/core/src/rpc/tests/external/native_browser.rs"
+    ]
+  },
+  {
+    "id": "git",
+    "sources": ["packages/core/src/core/git/mod.rs"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "git_feature"
+      }
+    ],
+    "browser": [],
+    "acceptance": [
+      "packages/core/src/core/git/tests/git_feature.rs",
+      "packages/core/src/core/git/tests/core_vault.rs"
+    ]
+  },
+  {
+    "id": "vault",
+    "sources": ["packages/core/src/core/vault/mod.rs"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "core_vault"
+      }
+    ],
+    "browser": [
+      "apps/desktop/tests/e2e/features/vault-lifecycle/onboarding.spec.ts",
+      "apps/desktop/tests/e2e/features/vault-lifecycle/lock.spec.ts",
+      "apps/desktop/tests/e2e/features/vault-lifecycle/session-lifecycle.spec.ts"
+    ],
+    "acceptance": [
+      "packages/core/src/core/vault/tests/core_vault.rs",
+      "packages/core/src/core/vault/tests/core_fixture.rs"
+    ]
+  },
+  {
+    "id": "profiles",
+    "sources": ["packages/core/src/core/profiles/mod.rs"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "core_vault"
+      },
+      {
+        "package": "latch-core",
+        "target": "rpc_external"
+      }
+    ],
+    "browser": ["apps/desktop/tests/e2e/features/profiles/profiles.spec.ts"],
+    "acceptance": [
+      "packages/core/src/core/profiles/tests/core_vault.rs",
+      "packages/core/src/rpc/tests/external/lifecycle.rs"
+    ]
+  },
+  {
+    "id": "secrets",
+    "sources": ["packages/core/src/core/secrets"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "core_vault"
+      },
+      {
+        "package": "latch-core",
+        "target": "rpc_external"
+      }
+    ],
+    "browser": ["apps/desktop/tests/e2e/features/secrets/secrets.spec.ts"],
+    "acceptance": [
+      "packages/core/src/core/secrets/tests/core_vault.rs",
+      "packages/core/src/core/secrets/tests/core_proptest.rs",
+      "packages/core/src/rpc/tests/external/kinds.rs"
+    ]
+  },
+  {
+    "id": "environment",
+    "sources": [
+      "packages/core/src/core/environment/mod.rs",
+      "packages/core/src/core/environment/dotenv.rs"
+    ],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "core_vault",
+        "filter": "env_"
+      },
+      {
+        "package": "latch-cli",
+        "target": "features",
+        "filter": "environment::"
+      }
+    ],
+    "browser": ["apps/desktop/tests/e2e/features/environment/env.spec.ts"],
+    "acceptance": ["packages/core/src/core/environment/tests/core_vault.rs"]
+  },
+  {
+    "id": "import-export",
+    "sources": ["packages/core/src/core/import", "packages/core/src/core/export"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "import_export_feature"
+      },
+      {
+        "package": "latch-core",
+        "target": "import_formats"
+      },
+      {
+        "package": "latch-core",
+        "target": "export_formats"
+      }
+    ],
+    "browser": ["apps/desktop/tests/e2e/features/import-export/import-export.spec.ts"],
+    "acceptance": [
+      "packages/core/src/core/import/tests/import_formats.rs",
+      "packages/core/src/core/import/tests/import_review.rs",
+      "packages/core/src/core/import/tests/import_export_feature.rs",
+      "packages/core/src/core/export/tests/export_formats.rs",
+      "packages/core/src/core/export/tests/import_export_feature.rs"
+    ]
+  },
+  {
+    "id": "history",
+    "sources": ["packages/core/src/core/history/mod.rs"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "core_history"
+      }
+    ],
+    "browser": ["apps/desktop/tests/e2e/features/history-trash/history-trash.spec.ts"],
+    "acceptance": ["packages/core/src/core/history/tests/core_history.rs"]
+  },
+  {
+    "id": "sync",
+    "sources": ["packages/core/src/core/sync/mod.rs"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "core_sync"
+      }
+    ],
+    "browser": ["apps/desktop/tests/e2e/features/sync-conflicts/sync.spec.ts"],
+    "acceptance": ["packages/core/src/core/sync/tests/core_sync.rs"]
+  },
+  {
+    "id": "recipients",
+    "sources": ["packages/core/src/core/recipients/mod.rs"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "recipients_feature"
+      },
+      {
+        "package": "latch-core",
+        "target": "core_recipients"
+      }
+    ],
+    "browser": ["apps/desktop/tests/e2e/features/recipients-recovery/recipients.spec.ts"],
+    "acceptance": [
+      "packages/core/src/core/recipients/tests/core_recipients.rs",
+      "packages/core/src/core/recipients/tests/recipients_feature.rs"
+    ]
+  },
+  {
+    "id": "actions",
+    "sources": ["packages/core/src/core/actions/mod.rs", "packages/core/src/agent/actions.rs"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "core_actions"
+      },
+      {
+        "package": "latch-core",
+        "target": "agent_actions"
+      }
+    ],
+    "browser": ["apps/desktop/tests/e2e/features/actions/actions.spec.ts"],
+    "acceptance": [
+      "packages/core/src/core/actions/tests/core_actions.rs",
+      "packages/core/src/agent/actions/tests/agent_actions.rs"
+    ]
+  },
+  {
+    "id": "browser",
+    "sources": [
+      "packages/core/src/core/browser/mod.rs",
+      "packages/core/src/agent/browser.rs",
+      "packages/core/src/core/browser/runtime.rs",
+      "packages/core/src/core/browser/credentials.rs",
+      "packages/core/src/core/browser/firefox.cfg"
+    ],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "browser_sessions"
+      }
+    ],
+    "browser": [],
+    "acceptance": [
+      "packages/core/src/core/browser/tests/browser_sessions.rs",
+      "packages/core/src/core/browser/tests/credentials.rs",
+      "packages/core/src/rpc/tests/external/native_browser.rs",
+      "tooling/automation/src/native_browser.rs"
+    ]
+  },
+  {
+    "id": "integrity",
+    "sources": ["packages/core/src/core/trust/mod.rs", "packages/core/src/core/doctor/mod.rs"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "core_integrity"
+      },
+      {
+        "package": "latch-core",
+        "target": "core_security"
+      }
+    ],
+    "browser": [],
+    "acceptance": [
+      "packages/core/src/core/vault/tests/core_integrity.rs",
+      "packages/core/src/core/trust/tests/core_security.rs"
+    ]
+  },
+  {
+    "id": "clipboard",
+    "sources": ["packages/core/src/agent/clipboard.rs"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "agent_dispatch",
+        "filter": "clipboard"
+      }
+    ],
+    "browser": ["apps/desktop/tests/e2e/features/clipboard/command-palette.spec.ts"],
+    "acceptance": ["packages/core/src/agent/dispatch/tests/agent_dispatch.rs"]
+  },
+  {
+    "id": "totp",
+    "sources": ["packages/core/src/core/totp/mod.rs"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "core_vault",
+        "filter": "totp"
+      },
+      {
+        "package": "latch-core",
+        "kind": "lib",
+        "filter": "core::totp::tests"
+      }
+    ],
+    "browser": [],
+    "acceptance": ["packages/core/src/core/totp/tests/core_vault.rs"]
+  },
+  {
+    "id": "passwords",
+    "sources": ["packages/core/src/core/domain/password.rs"],
+    "rust": [
+      {
+        "package": "latch-core",
+        "target": "domain_rpc"
+      },
+      {
+        "package": "latch-core",
+        "kind": "lib",
+        "filter": "password_is_bounded_random_and_uses_allowed_alphabet"
+      }
+    ],
+    "browser": [],
+    "acceptance": ["packages/core/src/core/domain/tests/domain_rpc.rs"]
+  }
+]

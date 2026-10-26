@@ -1,0 +1,84 @@
+{
+  "scenarios": [
+    {
+      "id": "env",
+      "title": "Run with a profile",
+      "description": "List a profile's environment entry, then confirm its variables reach only the child process.",
+      "steps": [
+        {
+          "command": "latch ls acme",
+          "output": [
+            "acme/runtime  [env]  2 vars"
+          ]
+        },
+        {
+          "command": "latch env acme -- node check-env.mjs",
+          "output": [
+            "DATABASE_URL available to child process",
+            "API_TOKEN available to child process"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "history",
+      "title": "Review a change",
+      "description": "Inspect the saved entry's Git-backed history without revealing its values.",
+      "steps": [
+        {
+          "command": "latch history acme/runtime",
+          "output": [
+            "f6de6b40ce  2026-10-25T11:54:27Z  Latch Demo  entry(4ro4322igt5j3hlidwhpyyowui): create 4slwwry2inmfuamkwtswfc7aii  [favorite, name, notes, tags, vars.API_TOKEN, vars.DATABASE_URL]"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "title": "Check the vault",
+      "description": "Run the integrity scan and inspect tracked vault files, then lock the vault.",
+      "steps": [
+        {
+          "command": "latch doctor --json",
+          "output": [
+            "{",
+            "  \"ok\": true,",
+            "  \"issues\": [{ \"severity\": \"warning\", \"code\": \"memory_not_locked\", \"message\": \"process memory could not be locked (mlockall); decrypted secrets may be swapped to disk. Raise RLIMIT_MEMLOCK (e.g. LimitMEMLOCK=infinity) or use encrypted swap\", \"path\": null }],",
+            "  \"fixed\": []",
+            "}"
+          ]
+        },
+        {
+          "command": "git ls-files",
+          "output": [
+            ".gitattributes",
+            ".gitignore",
+            ".latch/config.toml",
+            ".latch/keychain.json",
+            ".latch/manifest.age",
+            ".latch/manifest.sig",
+            ".latch/vaultkey.age",
+            ".latch/version",
+            "README.md",
+            "profiles/<profile-id>/entries/<entry-id>.age",
+            "profiles/<profile-id>/profile.age"
+          ]
+        },
+        {
+          "command": "latch lock",
+          "output": [
+            "locked"
+          ]
+        },
+        {
+          "command": "latch status",
+          "output": [
+            "state:   locked",
+            "recipients: passphrase",
+            "git:     clean, no remote, ahead 0, behind 0"
+          ]
+        }
+      ]
+    }
+  ]
+}

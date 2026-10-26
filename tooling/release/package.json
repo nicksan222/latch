@@ -1,0 +1,9 @@
+{
+  "name": "@latch/release",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "sidecars": "cargo run --locked --manifest-path ../../Cargo.toml -p latch-automation --bin latch-automation -- release-sidecar"
+  },
+  "type": "module"
+}

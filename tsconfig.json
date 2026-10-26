@@ -1,0 +1,23 @@
+{
+  "include": [
+    "apps/**/*.ts",
+    "apps/**/*.tsx",
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "tooling/**/*.ts",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "**/target/**",
+    "**/dist/**",
+    "**/dist-firefox/**",
+    "**/node_modules/**",
+    "apps/landing/**"
+  ],
+  "extends": "@latch/typescript-config/base",
+  "compilerOptions": {
+    "paths": {
+      "~/*": ["./apps/desktop/src/*"]
+    }
+  }
+}

@@ -1,0 +1,3 @@
+"url","username","password","httpRealm","formActionOrigin","guid","timeCreated","timeLastUsed","timePasswordChanged"
+"https://www.mozilla.test","alice","fixture-ff-pass",,"https://www.mozilla.test","{0a0b}","1700000000000","1700000000000","1700000000000"
+"https://forum.example.test","alice2","fixture-ff-pass2",,"","{0a0c}","1700000000000","1700000000000","1700000000000"

@@ -1,0 +1,6 @@
+{
+  "APP_NAME": "demo",
+  "DEBUG": false,
+  "database": { "url": "postgres://fixture-json-db", "pool": { "max": 10 } },
+  "stripe": { "key": "sk_test_fixture_json" }
+}

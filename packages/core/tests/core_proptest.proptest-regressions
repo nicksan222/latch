@@ -1,0 +1,8 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 2bd4dcc91ac01c809c1c7db05c875403ec3c08cec66bdbe081717437f5b2e5d1 # shrinks to d = EntryDoc { id: "zg55aeq3lg45gd37wr4wpufjvm", profile_id: "fluit54yzlxrte7pwoumvbjw54", type: Database, .. }
+cc 8aa4bc22b9edcc1038804c6821c50c846880de8e51afed9db5fa07c0270fff49 # shrinks to d = EntryDoc { id: "pttuvtm5zruu42ym5iwpnmvyjq", profile_id: "ydkjtesa57pw6dhzicscrsfqky", type: Database, .. }

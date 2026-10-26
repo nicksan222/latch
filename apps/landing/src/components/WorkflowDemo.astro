@@ -1,0 +1,30 @@
+---
+import { LatchMark } from '@latch/ui/latch-mark';
+import Icon from './Icon.astro';
+import { LandingTerminal } from './LandingTerminal';
+import { resolveSite } from '../lib/site.mjs';
+const readme = `${resolveSite().repository}#readme`;
+---
+<div class="context-map" aria-label="Interactive workflow preview with fictional project names">
+  <div class="context-map-top"><div class="context-projects" role="group" aria-label="Demo project"><button type="button" data-demo-profile="acme" aria-pressed="true"><span class="tab-prompt" aria-hidden="true">~/</span>acme</button><button type="button" data-demo-profile="personal" aria-pressed="false"><span class="tab-prompt" aria-hidden="true">~/</span>personal</button><button type="button" data-demo-profile="side-project" aria-pressed="false"><span class="tab-prompt" aria-hidden="true">~/</span>side-project</button></div><span class="context-preview-label">local workflow / example</span></div>
+  <div class="context-canvas">
+    <div class="context-origin"><div class="vault-heading"><LatchMark width={23} height={23} /><span>~/latch-vault</span></div><div class="vault-tree" aria-label="Example encrypted vault file tree"><code><span>├──</span> .latch/</code><code><span>│   ├──</span> vaultkey.age</code><code><span>│   ├──</span> manifest.age</code><code><span>│   └──</span> manifest.sig</code><code><span>└──</span> profiles/</code><code><span>    └──</span> &lt;id&gt;/</code><code><span>        ├──</span> profile.age</code><code><span>        └──</span> entries/</code><code><span>            └──</span> &lt;id&gt;.age</code></div><a class="vault-encryption" href={readme}><span class="file-format">.age</span><span>Encrypted on disk<br /><b>Names stay inside.</b></span><Icon name="arrow" size={15} /></a></div>
+    <div class="context-execution"><LandingTerminal client:visible />
+    <div class="context-browser"><div class="context-window-bar"><span><Icon name="globe" size={15} /> isolated browser</span><span>profile: <b data-demo-name>acme</b></span></div><div class="session-command"><code><span class="prompt-dollar">$</span> <em>latch</em> browser <b data-demo-name>acme</b></code><div class="session-properties"><span><i>cookies</i> separate</span><span><i>sessions</i> encrypted on close</span></div></div></div></div>
+  </div>
+  <div class="context-captions"><a href={readme}><h2>Separate projects.</h2><p>Keep client logins, keys, and notes in their own profile.</p><span>Project profiles <Icon name="arrow" size={15} /></span></a><a href={readme}><h2>Less .env sprawl.</h2><p>Use saved variables in your commands. No plaintext file in your project.</p><span>CLI & environment <Icon name="arrow" size={15} /></span></a><a href={readme}><h2>The right browser.</h2><p>Separate accounts, cookies, and sessions. Switch clients without crossing contexts.</p><span>Browser profiles <Icon name="arrow" size={15} /></span></a></div>
+  <p id="project-status" class="context-map-status" role="status">acme selected. Recorded CLI playback; no commands run on your computer.</p>
+</div>
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-demo-profile]');
+  buttons.forEach((button) => button.addEventListener('click', () => {
+    const name = button.dataset.demoProfile!;
+    buttons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+    document.querySelectorAll<HTMLElement>('[data-demo-name]').forEach((label) => { label.textContent = name; });
+    window.dispatchEvent(new CustomEvent('latch:demo-profile', { detail: name }));
+    document.querySelector('#project-status')!.textContent = `${name} selected. Recorded CLI playback; no commands run on your computer.`;
+    const map = document.querySelector('.context-map')!;
+    map.classList.remove('context-changed');
+    requestAnimationFrame(() => map.classList.add('context-changed'));
+  }));
+</script>

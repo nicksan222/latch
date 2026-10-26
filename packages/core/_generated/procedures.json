@@ -1,0 +1,1172 @@
+{
+  "version": 1,
+  "procedures": [
+    {
+      "id": "DOMAIN_CALL",
+      "name": "domain.call",
+      "rust": "domain_call",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "DomainRequest",
+        "proto": "DomainRequest"
+      },
+      "result": {
+        "typescript": "DomainResponse",
+        "proto": "DomainResponse"
+      },
+      "imports": [
+        "DomainRequest",
+        "DomainResponse"
+      ]
+    },
+    {
+      "id": "HELLO",
+      "name": "hello",
+      "rust": "hello",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "HelloParams",
+        "proto": "HelloParams"
+      },
+      "result": {
+        "typescript": "HelloResult",
+        "proto": "HelloResult"
+      },
+      "imports": [
+        "HelloParams",
+        "HelloResult"
+      ]
+    },
+    {
+      "id": "VAULT_STATUS",
+      "name": "vault.status",
+      "rust": "vault_status",
+      "paramsMode": "none",
+      "request": {
+        "typescript": "void",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "VaultStatus",
+        "proto": "VaultStatus"
+      },
+      "imports": [
+        "VaultStatus"
+      ]
+    },
+    {
+      "id": "VAULT_INIT",
+      "name": "vault.init",
+      "rust": "vault_init",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "InitParams",
+        "proto": "InitParams"
+      },
+      "result": {
+        "typescript": "InitResult",
+        "proto": "InitResult"
+      },
+      "imports": [
+        "InitParams",
+        "InitResult"
+      ]
+    },
+    {
+      "id": "VAULT_CLONE",
+      "name": "vault.clone",
+      "rust": "vault_clone",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "CloneParams",
+        "proto": "CloneParams"
+      },
+      "result": {
+        "typescript": "VaultStatus",
+        "proto": "VaultStatus"
+      },
+      "imports": [
+        "CloneParams",
+        "VaultStatus"
+      ]
+    },
+    {
+      "id": "VAULT_OPEN",
+      "name": "vault.open",
+      "rust": "vault_open",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "OpenParams",
+        "proto": "OpenParams"
+      },
+      "result": {
+        "typescript": "VaultStatus",
+        "proto": "VaultStatus"
+      },
+      "imports": [
+        "OpenParams",
+        "VaultStatus"
+      ]
+    },
+    {
+      "id": "VAULT_LIST",
+      "name": "vault.list",
+      "rust": "vault_list",
+      "paramsMode": "none",
+      "request": {
+        "typescript": "void",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "Array<KnownVault>",
+        "proto": "VaultListResponse"
+      },
+      "imports": [
+        "KnownVault"
+      ]
+    },
+    {
+      "id": "VAULT_UNLOCK",
+      "name": "vault.unlock",
+      "rust": "vault_unlock",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "UnlockParams",
+        "proto": "UnlockParams"
+      },
+      "result": {
+        "typescript": "VaultStatus",
+        "proto": "VaultStatus"
+      },
+      "imports": [
+        "UnlockParams",
+        "VaultStatus"
+      ]
+    },
+    {
+      "id": "VAULT_LOCK",
+      "name": "vault.lock",
+      "rust": "vault_lock",
+      "paramsMode": "none",
+      "request": {
+        "typescript": "void",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "VaultStatus",
+        "proto": "VaultStatus"
+      },
+      "imports": [
+        "VaultStatus"
+      ]
+    },
+    {
+      "id": "VAULT_BENCHMARK_KDF",
+      "name": "vault.benchmarkKdf",
+      "rust": "vault_benchmark_kdf",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "KdfBenchmarkParams",
+        "proto": "KdfBenchmarkParams"
+      },
+      "result": {
+        "typescript": "KdfBenchmark",
+        "proto": "KdfBenchmark"
+      },
+      "imports": [
+        "KdfBenchmark",
+        "KdfBenchmarkParams"
+      ]
+    },
+    {
+      "id": "VAULT_CHANGE_PASSPHRASE",
+      "name": "vault.changePassphrase",
+      "rust": "vault_change_passphrase",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ChangePassphraseParams",
+        "proto": "ChangePassphraseParams"
+      },
+      "result": {
+        "typescript": "null",
+        "proto": "Empty"
+      },
+      "imports": [
+        "ChangePassphraseParams"
+      ]
+    },
+    {
+      "id": "VAULT_TRUST",
+      "name": "vault.trust",
+      "rust": "vault_trust",
+      "paramsMode": "empty_object",
+      "request": {
+        "typescript": "Record<string, never>",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "TrustStatus",
+        "proto": "TrustStatus"
+      },
+      "imports": [
+        "TrustStatus"
+      ]
+    },
+    {
+      "id": "VAULT_FORGET_TRUST",
+      "name": "vault.forgetTrust",
+      "rust": "vault_forget_trust",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ForgetTrustParams",
+        "proto": "ForgetTrustParams"
+      },
+      "result": {
+        "typescript": "TrustStatus",
+        "proto": "TrustStatus"
+      },
+      "imports": [
+        "ForgetTrustParams",
+        "TrustStatus"
+      ]
+    },
+    {
+      "id": "PROFILES_LIST",
+      "name": "profiles.list",
+      "rust": "profiles_list",
+      "paramsMode": "none",
+      "request": {
+        "typescript": "void",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "Array<ProfileSummary>",
+        "proto": "ProfilesListResponse"
+      },
+      "imports": [
+        "ProfileSummary"
+      ]
+    },
+    {
+      "id": "PROFILES_GET",
+      "name": "profiles.get",
+      "rust": "profiles_get",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "IdParams",
+        "proto": "IdParams"
+      },
+      "result": {
+        "typescript": "Profile",
+        "proto": "Profile"
+      },
+      "imports": [
+        "IdParams",
+        "Profile"
+      ]
+    },
+    {
+      "id": "PROFILES_CREATE",
+      "name": "profiles.create",
+      "rust": "profiles_create",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ProfileInput",
+        "proto": "ProfileInput"
+      },
+      "result": {
+        "typescript": "Profile",
+        "proto": "Profile"
+      },
+      "imports": [
+        "Profile",
+        "ProfileInput"
+      ]
+    },
+    {
+      "id": "PROFILES_UPDATE",
+      "name": "profiles.update",
+      "rust": "profiles_update",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ProfileUpdateParams",
+        "proto": "ProfileUpdateParams"
+      },
+      "result": {
+        "typescript": "Profile",
+        "proto": "Profile"
+      },
+      "imports": [
+        "Profile",
+        "ProfileUpdateParams"
+      ]
+    },
+    {
+      "id": "PROFILES_DELETE",
+      "name": "profiles.delete",
+      "rust": "profiles_delete",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "IdParams",
+        "proto": "IdParams"
+      },
+      "result": {
+        "typescript": "null",
+        "proto": "Empty"
+      },
+      "imports": [
+        "IdParams"
+      ]
+    },
+    {
+      "id": "ENTRIES_LIST",
+      "name": "entries.list",
+      "rust": "entries_list",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ListEntriesParams",
+        "proto": "ListEntriesParams"
+      },
+      "result": {
+        "typescript": "Array<EntrySummary>",
+        "proto": "EntriesListResponse"
+      },
+      "imports": [
+        "EntrySummary",
+        "ListEntriesParams"
+      ]
+    },
+    {
+      "id": "ENTRIES_GET",
+      "name": "entries.get",
+      "rust": "entries_get",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "GetEntryParams",
+        "proto": "GetEntryParams"
+      },
+      "result": {
+        "typescript": "Entry",
+        "proto": "Entry"
+      },
+      "imports": [
+        "Entry",
+        "GetEntryParams"
+      ]
+    },
+    {
+      "id": "ENTRIES_REVEAL",
+      "name": "entries.reveal",
+      "rust": "entries_reveal",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "RevealParams",
+        "proto": "RevealParams"
+      },
+      "result": {
+        "typescript": "RevealResult",
+        "proto": "RevealResult"
+      },
+      "imports": [
+        "RevealParams",
+        "RevealResult"
+      ]
+    },
+    {
+      "id": "ENTRIES_CREATE",
+      "name": "entries.create",
+      "rust": "entries_create",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "EntryInput",
+        "proto": "EntryInput"
+      },
+      "result": {
+        "typescript": "Entry",
+        "proto": "Entry"
+      },
+      "imports": [
+        "Entry",
+        "EntryInput"
+      ]
+    },
+    {
+      "id": "ENTRIES_UPDATE",
+      "name": "entries.update",
+      "rust": "entries_update",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "EntryUpdateParams",
+        "proto": "EntryUpdateParams"
+      },
+      "result": {
+        "typescript": "Entry",
+        "proto": "Entry"
+      },
+      "imports": [
+        "Entry",
+        "EntryUpdateParams"
+      ]
+    },
+    {
+      "id": "ENTRIES_DELETE",
+      "name": "entries.delete",
+      "rust": "entries_delete",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "IdParams",
+        "proto": "IdParams"
+      },
+      "result": {
+        "typescript": "null",
+        "proto": "Empty"
+      },
+      "imports": [
+        "IdParams"
+      ]
+    },
+    {
+      "id": "ENTRIES_MOVE",
+      "name": "entries.move",
+      "rust": "entries_move",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "MoveEntryParams",
+        "proto": "MoveEntryParams"
+      },
+      "result": {
+        "typescript": "Entry",
+        "proto": "Entry"
+      },
+      "imports": [
+        "Entry",
+        "MoveEntryParams"
+      ]
+    },
+    {
+      "id": "ENTRIES_HISTORY",
+      "name": "entries.history",
+      "rust": "entries_history",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "IdParams",
+        "proto": "IdParams"
+      },
+      "result": {
+        "typescript": "Array<HistoryItem>",
+        "proto": "EntriesHistoryResponse"
+      },
+      "imports": [
+        "HistoryItem",
+        "IdParams"
+      ]
+    },
+    {
+      "id": "ENTRIES_RESTORE",
+      "name": "entries.restore",
+      "rust": "entries_restore",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "RestoreParams",
+        "proto": "RestoreParams"
+      },
+      "result": {
+        "typescript": "Entry",
+        "proto": "Entry"
+      },
+      "imports": [
+        "Entry",
+        "RestoreParams"
+      ]
+    },
+    {
+      "id": "ENTRIES_TRASH",
+      "name": "entries.trash",
+      "rust": "entries_trash",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "TrashParams",
+        "proto": "TrashParams"
+      },
+      "result": {
+        "typescript": "Array<TrashItem>",
+        "proto": "EntriesTrashResponse"
+      },
+      "imports": [
+        "TrashItem",
+        "TrashParams"
+      ]
+    },
+    {
+      "id": "ACTIONS_LIST",
+      "name": "actions.list",
+      "rust": "actions_list",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "IdParams",
+        "proto": "IdParams"
+      },
+      "result": {
+        "typescript": "ActionListResult",
+        "proto": "ActionListResult"
+      },
+      "imports": [
+        "ActionListResult",
+        "IdParams"
+      ]
+    },
+    {
+      "id": "ACTIONS_SAVE",
+      "name": "actions.save",
+      "rust": "actions_save",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ActionSaveParams",
+        "proto": "ActionSaveParams"
+      },
+      "result": {
+        "typescript": "LaunchAction",
+        "proto": "LaunchAction"
+      },
+      "imports": [
+        "ActionSaveParams",
+        "LaunchAction"
+      ]
+    },
+    {
+      "id": "ACTIONS_DELETE",
+      "name": "actions.delete",
+      "rust": "actions_delete",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ActionIdParams",
+        "proto": "ActionIdParams"
+      },
+      "result": {
+        "typescript": "null",
+        "proto": "Empty"
+      },
+      "imports": [
+        "ActionIdParams"
+      ]
+    },
+    {
+      "id": "ACTIONS_CONFIGURE",
+      "name": "actions.configure",
+      "rust": "actions_configure",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ActionConfigureParams",
+        "proto": "ActionConfigureParams"
+      },
+      "result": {
+        "typescript": "null",
+        "proto": "Empty"
+      },
+      "imports": [
+        "ActionConfigureParams"
+      ]
+    },
+    {
+      "id": "ACTIONS_RUN",
+      "name": "actions.run",
+      "rust": "actions_run",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ActionIdParams",
+        "proto": "ActionIdParams"
+      },
+      "result": {
+        "typescript": "null",
+        "proto": "Empty"
+      },
+      "imports": [
+        "ActionIdParams"
+      ]
+    },
+    {
+      "id": "ENV_RESOLVE",
+      "name": "env.resolve",
+      "rust": "env_resolve",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "EnvResolveParams",
+        "proto": "EnvResolveParams"
+      },
+      "result": {
+        "typescript": "EnvResolveResult",
+        "proto": "EnvResolveResult"
+      },
+      "imports": [
+        "EnvResolveParams",
+        "EnvResolveResult"
+      ]
+    },
+    {
+      "id": "ENV_FORMAT",
+      "name": "env.format",
+      "rust": "env_format",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "EnvFormatParams",
+        "proto": "EnvFormatParams"
+      },
+      "result": {
+        "typescript": "TextResult",
+        "proto": "TextResult"
+      },
+      "imports": [
+        "EnvFormatParams",
+        "TextResult"
+      ]
+    },
+    {
+      "id": "ENV_PARSE",
+      "name": "env.parse",
+      "rust": "env_parse",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "EnvParseParams",
+        "proto": "EnvParseParams"
+      },
+      "result": {
+        "typescript": "Array<EnvVar>",
+        "proto": "EnvParseResponse"
+      },
+      "imports": [
+        "EnvParseParams",
+        "EnvVar"
+      ]
+    },
+    {
+      "id": "ENV_COPY",
+      "name": "env.copy",
+      "rust": "env_copy",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "EnvFormatParams",
+        "proto": "EnvFormatParams"
+      },
+      "result": {
+        "typescript": "ClipboardCopyResult",
+        "proto": "ClipboardCopyResult"
+      },
+      "imports": [
+        "ClipboardCopyResult",
+        "EnvFormatParams"
+      ]
+    },
+    {
+      "id": "TOTP_GET",
+      "name": "totp.get",
+      "rust": "totp_get",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "IdParams",
+        "proto": "IdParams"
+      },
+      "result": {
+        "typescript": "TotpCode",
+        "proto": "TotpCode"
+      },
+      "imports": [
+        "IdParams",
+        "TotpCode"
+      ]
+    },
+    {
+      "id": "TOTP_PINNED",
+      "name": "totp.pinned",
+      "rust": "totp_pinned",
+      "paramsMode": "none",
+      "request": {
+        "typescript": "void",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "Array<PinnedTotp>",
+        "proto": "TotpPinnedResponse"
+      },
+      "imports": [
+        "PinnedTotp"
+      ]
+    },
+    {
+      "id": "CLIPBOARD_COPY",
+      "name": "clipboard.copy",
+      "rust": "clipboard_copy",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ClipboardCopyParams",
+        "proto": "ClipboardCopyParams"
+      },
+      "result": {
+        "typescript": "ClipboardCopyResult",
+        "proto": "ClipboardCopyResult"
+      },
+      "imports": [
+        "ClipboardCopyParams",
+        "ClipboardCopyResult"
+      ]
+    },
+    {
+      "id": "BROWSER_LAUNCH",
+      "name": "browser.launch",
+      "rust": "browser_launch",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "BrowserLaunchParams",
+        "proto": "BrowserLaunchParams"
+      },
+      "result": {
+        "typescript": "BrowserSession",
+        "proto": "BrowserSession"
+      },
+      "imports": [
+        "BrowserLaunchParams",
+        "BrowserSession"
+      ]
+    },
+    {
+      "id": "BROWSER_LIST",
+      "name": "browser.list",
+      "rust": "browser_list",
+      "paramsMode": "none",
+      "request": {
+        "typescript": "void",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "Array<BrowserSession>",
+        "proto": "BrowserListResponse"
+      },
+      "imports": [
+        "BrowserSession"
+      ]
+    },
+    {
+      "id": "BROWSER_CLOSE",
+      "name": "browser.close",
+      "rust": "browser_close",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "IdParams",
+        "proto": "IdParams"
+      },
+      "result": {
+        "typescript": "null",
+        "proto": "Empty"
+      },
+      "imports": [
+        "IdParams"
+      ]
+    },
+    {
+      "id": "BROWSER_RESET",
+      "name": "browser.reset",
+      "rust": "browser_reset",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "IdParams",
+        "proto": "IdParams"
+      },
+      "result": {
+        "typescript": "null",
+        "proto": "Empty"
+      },
+      "imports": [
+        "IdParams"
+      ]
+    },
+    {
+      "id": "BROWSER_DETECT",
+      "name": "browser.detect",
+      "rust": "browser_detect",
+      "paramsMode": "none",
+      "request": {
+        "typescript": "void",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "Array<DetectedBrowser>",
+        "proto": "BrowserDetectResponse"
+      },
+      "imports": [
+        "DetectedBrowser"
+      ]
+    },
+    {
+      "id": "BROWSER_SESSION_INFO",
+      "name": "browser.sessionInfo",
+      "rust": "browser_session_info",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "IdParams",
+        "proto": "IdParams"
+      },
+      "result": {
+        "typescript": "SessionArchiveInfo",
+        "proto": "SessionArchiveInfo"
+      },
+      "imports": [
+        "IdParams",
+        "SessionArchiveInfo"
+      ]
+    },
+    {
+      "id": "SYNC_STATUS",
+      "name": "sync.status",
+      "rust": "sync_status",
+      "paramsMode": "none",
+      "request": {
+        "typescript": "void",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "SyncStatus",
+        "proto": "SyncStatus"
+      },
+      "imports": [
+        "SyncStatus"
+      ]
+    },
+    {
+      "id": "SYNC_RUN",
+      "name": "sync.run",
+      "rust": "sync_run",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "SyncParams",
+        "proto": "SyncParams"
+      },
+      "result": {
+        "typescript": "SyncResult",
+        "proto": "SyncResult"
+      },
+      "imports": [
+        "SyncParams",
+        "SyncResult"
+      ]
+    },
+    {
+      "id": "SYNC_CONFLICT",
+      "name": "sync.conflict",
+      "rust": "sync_conflict",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "IdParams",
+        "proto": "IdParams"
+      },
+      "result": {
+        "typescript": "ConflictDetail",
+        "proto": "ConflictDetail"
+      },
+      "imports": [
+        "ConflictDetail",
+        "IdParams"
+      ]
+    },
+    {
+      "id": "SYNC_RESOLVE",
+      "name": "sync.resolve",
+      "rust": "sync_resolve",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ResolveParams",
+        "proto": "ResolveParams"
+      },
+      "result": {
+        "typescript": "SyncStatus",
+        "proto": "SyncStatus"
+      },
+      "imports": [
+        "ResolveParams",
+        "SyncStatus"
+      ]
+    },
+    {
+      "id": "SYNC_SET_REMOTE",
+      "name": "sync.setRemote",
+      "rust": "sync_set_remote",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "SetRemoteParams",
+        "proto": "SetRemoteParams"
+      },
+      "result": {
+        "typescript": "SyncStatus",
+        "proto": "SyncStatus"
+      },
+      "imports": [
+        "SetRemoteParams",
+        "SyncStatus"
+      ]
+    },
+    {
+      "id": "RECIPIENTS_LIST",
+      "name": "recipients.list",
+      "rust": "recipients_list",
+      "paramsMode": "none",
+      "request": {
+        "typescript": "void",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "Array<RecipientInfo>",
+        "proto": "RecipientsListResponse"
+      },
+      "imports": [
+        "RecipientInfo"
+      ]
+    },
+    {
+      "id": "RECIPIENTS_ADD",
+      "name": "recipients.add",
+      "rust": "recipients_add",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "AddRecipientParams",
+        "proto": "AddRecipientParams"
+      },
+      "result": {
+        "typescript": "Array<RecipientInfo>",
+        "proto": "RecipientsAddResponse"
+      },
+      "imports": [
+        "AddRecipientParams",
+        "RecipientInfo"
+      ]
+    },
+    {
+      "id": "RECIPIENTS_REMOVE",
+      "name": "recipients.remove",
+      "rust": "recipients_remove",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "RemoveRecipientParams",
+        "proto": "RemoveRecipientParams"
+      },
+      "result": {
+        "typescript": "Array<RecipientInfo>",
+        "proto": "RecipientsRemoveResponse"
+      },
+      "imports": [
+        "RecipientInfo",
+        "RemoveRecipientParams"
+      ]
+    },
+    {
+      "id": "RECIPIENTS_ROTATE",
+      "name": "recipients.rotate",
+      "rust": "recipients_rotate",
+      "paramsMode": "none",
+      "request": {
+        "typescript": "void",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "Array<RecipientInfo>",
+        "proto": "RecipientsRotateResponse"
+      },
+      "imports": [
+        "RecipientInfo"
+      ]
+    },
+    {
+      "id": "IMPORT_PREVIEW",
+      "name": "import.preview",
+      "rust": "import_preview",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ImportParams",
+        "proto": "ImportParams"
+      },
+      "result": {
+        "typescript": "ImportPreview",
+        "proto": "ImportPreview"
+      },
+      "imports": [
+        "ImportParams",
+        "ImportPreview"
+      ]
+    },
+    {
+      "id": "IMPORT_APPLY",
+      "name": "import.apply",
+      "rust": "import_apply",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ImportParams",
+        "proto": "ImportParams"
+      },
+      "result": {
+        "typescript": "ImportApplyResult",
+        "proto": "ImportApplyResult"
+      },
+      "imports": [
+        "ImportApplyResult",
+        "ImportParams"
+      ]
+    },
+    {
+      "id": "EXPORT_RUN",
+      "name": "export.run",
+      "rust": "export_run",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "ExportParams",
+        "proto": "ExportParams"
+      },
+      "result": {
+        "typescript": "ExportResult",
+        "proto": "ExportResult"
+      },
+      "imports": [
+        "ExportParams",
+        "ExportResult"
+      ]
+    },
+    {
+      "id": "DOCTOR_RUN",
+      "name": "doctor.run",
+      "rust": "doctor_run",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "DoctorParams",
+        "proto": "DoctorParams"
+      },
+      "result": {
+        "typescript": "DoctorReport",
+        "proto": "DoctorReport"
+      },
+      "imports": [
+        "DoctorParams",
+        "DoctorReport"
+      ]
+    },
+    {
+      "id": "SETTINGS_GET",
+      "name": "settings.get",
+      "rust": "settings_get",
+      "paramsMode": "none",
+      "request": {
+        "typescript": "void",
+        "proto": "Empty"
+      },
+      "result": {
+        "typescript": "Settings",
+        "proto": "Settings"
+      },
+      "imports": [
+        "Settings"
+      ]
+    },
+    {
+      "id": "SETTINGS_UPDATE",
+      "name": "settings.update",
+      "rust": "settings_update",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "Settings",
+        "proto": "Settings"
+      },
+      "result": {
+        "typescript": "Settings",
+        "proto": "Settings"
+      },
+      "imports": [
+        "Settings"
+      ]
+    },
+    {
+      "id": "VAULT_LOCATE",
+      "name": "vault.locate",
+      "rust": "vault_locate",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "OpenParams",
+        "proto": "OpenParams"
+      },
+      "result": {
+        "typescript": "TextResult",
+        "proto": "TextResult"
+      },
+      "imports": [
+        "OpenParams",
+        "TextResult"
+      ]
+    },
+    {
+      "id": "DOCTOR_SCAN",
+      "name": "doctor.scan",
+      "rust": "doctor_scan",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "OpenParams",
+        "proto": "OpenParams"
+      },
+      "result": {
+        "typescript": "DoctorReport",
+        "proto": "DoctorReport"
+      },
+      "imports": [
+        "DoctorReport",
+        "OpenParams"
+      ]
+    },
+    {
+      "id": "HOOKS_INSTALL",
+      "name": "hooks.install",
+      "rust": "hooks_install",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "HookParams",
+        "proto": "HookParams"
+      },
+      "result": {
+        "typescript": "HookResult",
+        "proto": "HookResult"
+      },
+      "imports": [
+        "HookParams",
+        "HookResult"
+      ]
+    },
+    {
+      "id": "HOOKS_UNINSTALL",
+      "name": "hooks.uninstall",
+      "rust": "hooks_uninstall",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "HookParams",
+        "proto": "HookParams"
+      },
+      "result": {
+        "typescript": "HookResult",
+        "proto": "HookResult"
+      },
+      "imports": [
+        "HookParams",
+        "HookResult"
+      ]
+    },
+    {
+      "id": "TOTP_PARSE",
+      "name": "totp.parse",
+      "rust": "totp_parse",
+      "paramsMode": "typed",
+      "request": {
+        "typescript": "EnvParseParams",
+        "proto": "EnvParseParams"
+      },
+      "result": {
+        "typescript": "TotpConfig",
+        "proto": "TotpConfig"
+      },
+      "imports": [
+        "EnvParseParams",
+        "TotpConfig"
+      ]
+    }
+  ]
+}

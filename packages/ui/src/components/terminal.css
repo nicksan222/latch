@@ -1,0 +1,165 @@
+.latch-terminal {
+  --terminal-ink: var(--foreground);
+  --terminal-dim: var(--muted-foreground);
+  --terminal-accent: var(--primary);
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--terminal-ink);
+  font-family: var(--font-mono);
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.latch-terminal-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.latch-terminal-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  min-width: 0;
+}
+.latch-terminal-title svg {
+  color: var(--terminal-accent);
+  flex-shrink: 0;
+}
+.latch-terminal-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.latch-terminal-status {
+  font-size: 9px;
+  color: var(--terminal-dim);
+  margin-right: 7px;
+}
+.latch-terminal-controls button {
+  color: var(--terminal-dim);
+}
+.latch-terminal-viewport {
+  height: 294px;
+  padding: 0;
+}
+.latch-terminal-content {
+  padding: 20px 17px;
+}
+.latch-terminal-line {
+  display: grid;
+  grid-template-columns: 11px minmax(0, 1fr);
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.latch-terminal-line.is-command {
+  margin-top: 15px;
+  margin-bottom: 9px;
+  color: var(--terminal-ink);
+}
+.latch-terminal-line:first-child {
+  margin-top: 0;
+}
+.latch-terminal-line.is-output {
+  color: var(--terminal-dim);
+  animation: terminal-line-enter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.latch-terminal-prompt {
+  color: var(--terminal-accent);
+  user-select: none;
+}
+.latch-terminal-cursor {
+  display: inline-block;
+  background: currentColor;
+  width: 0.6em;
+  height: 1.1em;
+  vertical-align: -0.15em;
+  margin-left: 2px;
+}
+.latch-terminal.is-playing .latch-terminal-cursor {
+  animation: terminal-cursor 900ms steps(1) infinite;
+}
+.latch-terminal-footer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-top: 1px solid var(--border);
+  padding: 10px 15px;
+  font-size: 9px;
+  color: var(--terminal-dim);
+}
+.latch-terminal-footer progress {
+  height: 2px;
+  flex: 1;
+  min-width: 20px;
+  max-width: 120px;
+  margin-left: auto;
+  border: 0;
+  background: var(--border);
+  accent-color: var(--terminal-accent);
+}
+.latch-terminal-footer progress::-webkit-progress-bar {
+  background: var(--border);
+}
+.latch-terminal-footer progress::-webkit-progress-value {
+  background: var(--terminal-accent);
+}
+.latch-terminal-footer progress::-moz-progress-bar {
+  background: var(--terminal-accent);
+}
+@keyframes terminal-line-enter {
+  from {
+    opacity: 0.4;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes terminal-cursor {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+@media (max-width: 450px) {
+  .latch-terminal-toolbar {
+    padding: 9px 10px;
+    gap: 7px;
+  }
+  .latch-terminal-title {
+    font-size: 10px;
+    gap: 7px;
+  }
+  .latch-terminal-status {
+    display: none;
+  }
+  .latch-terminal-viewport {
+    height: 304px;
+  }
+  .latch-terminal-content {
+    padding: 17px 12px;
+  }
+  .latch-terminal-line {
+    font-size: 10px;
+    gap: 6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .latch-terminal-line.is-output,
+  .latch-terminal.is-playing .latch-terminal-cursor {
+    animation: none;
+  }
+}

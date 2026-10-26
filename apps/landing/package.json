@@ -1,0 +1,30 @@
+{
+  "name": "@latch/landing",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1",
+    "check": "astro check",
+    "test": "node --test src/lib/*.test.mjs",
+    "verify": "node tooling/verify-build.mjs",
+    "test:browser": "playwright test --config playwright.config.mjs",
+    "test:site": "node --test src/lib/*.test.mjs && astro check && astro build && node tooling/verify-build.mjs && playwright test --config playwright.config.mjs"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.1.1",
+    "@latch/ui": "*",
+    "astro": "^7.4.2",
+    "lucide-react": "^1.61.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@playwright/test": "^1.64.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "typescript": "^6.0.3"
+  }
+}

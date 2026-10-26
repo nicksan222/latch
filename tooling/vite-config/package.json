@@ -1,0 +1,14 @@
+{
+  "name": "@latch/vite-config",
+  "version": "0.1.0",
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite-plus": "1.4.0"
+  },
+  "exports": {
+    "./frontend": "./vite.ts"
+  },
+  "private": true,
+  "type": "module"
+}

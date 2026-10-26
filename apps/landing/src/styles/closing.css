@@ -1,0 +1,151 @@
+/* Closing chapters share the hero's display voice and long-form reading rhythm. */
+.context-home .git-story {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: clamp(40px, 7vw, 104px);
+  align-items: center;
+  padding-block: clamp(56px, 7vw, 96px);
+  border-block: 1px solid var(--site-border);
+  font-family: var(--font-sans);
+}
+.git-story-editorial { min-width: 0; }
+.context-home .git-story h2,
+.context-home .guide-index-heading h2 {
+  font: 500 clamp(36px, 4.2vw, 52px)/1.1 'DM Sans', var(--font-sans);
+  letter-spacing: -.035em;
+}
+.context-home .git-story h2 > span { color: var(--site-muted); }
+.context-home .git-story-copy p {
+  max-width: 44ch;
+  margin-top: 25px;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--site-muted);
+}
+.context-home .git-story-copy .text-link {
+  min-height: 44px;
+  margin-top: 18px;
+  gap: 12px;
+  font: 500 14px/1.5 var(--font-sans);
+}
+.git-story-copy .text-link:hover { text-decoration: underline; }
+.vault-repository {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--site-border);
+  border-radius: 16px;
+  background: var(--site-panel);
+  overflow: hidden;
+}
+.vault-repository-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--site-border);
+  font-size: 14px;
+  font-weight: 500;
+}
+.vault-repository-header > svg:first-child { color: var(--site-blue); }
+.vault-repository-header > svg:last-child { margin-left: auto; color: var(--site-muted); }
+.vault-repository-files { padding: 26px 24px 30px; }
+.vault-directory { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
+.vault-directory > svg { color: var(--site-muted); }
+.vault-repository code { font: 13px/1.7 var(--font-mono); }
+.vault-file {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-left: 9px;
+  padding: 9px 0 9px 22px;
+  border-left: 1px solid var(--site-border);
+}
+.vault-file > span { color: var(--site-muted); font-size: 12px; }
+.vault-repository figcaption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--site-border);
+  color: var(--site-muted);
+  font-size: 12px;
+}
+.vault-repository figcaption > svg { color: var(--site-blue); }
+.context-home .home-guide-index {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: clamp(40px, 7vw, 104px);
+  padding-block: clamp(64px, 8vw, 112px);
+  font-family: var(--font-sans);
+}
+.context-home .guide-index-heading { display: block; }
+.context-home .guide-index-heading h2 > span { color: var(--site-blue); }
+.context-home .guide-index-heading > p {
+  margin-top: 25px;
+  color: var(--site-muted);
+  font-size: 16px;
+  line-height: 1.8;
+}
+.context-home .home-guide-index nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--site-border);
+}
+.context-home .home-guide-index nav a {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 98px;
+  padding: 21px 4px;
+  border-bottom: 1px solid var(--site-border);
+  transition: color 180ms ease-out, background-color 180ms ease-out;
+}
+.context-home .home-guide-index nav a > div { min-width: 0; }
+.context-home .home-guide-index nav a > svg { color: var(--site-muted); }
+.context-home .home-guide-index nav a > svg:last-child { margin: 0 0 0 auto; color: var(--site-blue); }
+.context-home .home-guide-index h3 {
+  margin-bottom: 4px;
+  font: 500 18px/1.4 'DM Sans', var(--font-sans);
+  letter-spacing: -.015em;
+}
+.context-home .home-guide-index nav p { font-size: 14px; line-height: 1.6; color: var(--site-muted); }
+.context-home .home-guide-index nav a:hover,
+.context-home .home-guide-index nav a:focus-visible { background: var(--site-panel); }
+.context-home .home-guide-index nav a:hover h3 { color: var(--site-blue); }
+@media (max-width: 760px) {
+  .context-home .git-story,
+  .context-home .home-guide-index { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .context-home .git-story-copy { grid-column: auto; grid-row: auto; }
+  .context-home .git-story-copy p { max-width: 52ch; }
+  .vault-repository { max-width: 480px; width: 100%; }
+  .context-home .home-guide-index { padding-block: 56px 64px; }
+  .context-home .guide-index-heading > p { margin-top: 18px; }
+}
+@media (max-width: 380px) {
+  .vault-repository-header { padding: 18px; gap: 10px; }
+  .vault-repository-files { padding: 22px 18px; }
+  .vault-repository figcaption { padding: 16px 18px; font-size: 12px; }
+  .vault-file > span { font-size: 12px; }
+  .context-home .home-guide-index nav a { gap: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .context-home .home-guide-index nav a { transition: none; }
+}
+
+/* Carry the display/body hierarchy through the terminal's supporting links. */
+.context-home .context-captions { gap: 40px; padding-top: 36px; }
+.context-home .context-captions h2 {
+  font: 500 22px/1.35 'DM Sans', var(--font-sans);
+  letter-spacing: -.02em;
+  margin-bottom: 12px;
+}
+.context-home .context-captions p { font-size: 14px; line-height: 1.8; }
+.context-home .context-captions a > span { font: 500 13px/1.5 var(--font-sans); margin-top: 18px; }
+.context-home .context-map-status { font: 12px/1.6 var(--font-sans); }
+@media (max-width: 760px) {
+  .context-home .context-captions { gap: 0; padding-top: 12px; }
+  .context-home .context-captions > a { display: block; padding-block: 24px; }
+  .context-home .context-captions a > span { margin-top: 12px; }
+}

@@ -1,0 +1,3 @@
+name,url,username,password,note
+example.test,https://example.test/login,alice,fixture-chrome-pass,
+Shop,https://shop.example.test/,alice@example.test,fixture-shop-pass,loyalty account

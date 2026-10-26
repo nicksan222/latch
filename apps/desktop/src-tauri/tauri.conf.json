@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Latch",
+  "version": "0.1.0",
+  "identifier": "dev.latch.app",
+  "mainBinaryName": "latch-desktop",
+  "build": {
+    "beforeDevCommand": "bun run --filter @latch/desktop dev",
+    "devUrl": "http://localhost:1422",
+    "beforeBuildCommand": "bun run --filter @latch/desktop build",
+    "frontendDist": "../dist",
+    "features": ["desktop"]
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Latch",
+        "width": 1180,
+        "height": 760,
+        "minWidth": 820,
+        "minHeight": 540,
+        "visible": false,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src ipc: http://ipc.localhost",
+      "devCsp": "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; connect-src ipc: http://ipc.localhost ws://localhost:1422 http://localhost:1422",
+      "freezePrototype": true
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["deb", "rpm", "appimage", "app", "dmg", "msi"],
+    "category": "Utility",
+    "shortDescription": "Local, git-backed secret manager for developers",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico",
+      "icons/icon.png"
+    ],
+    "linux": {
+      "deb": {
+        "depends": ["git"]
+      }
+    }
+  }
+}

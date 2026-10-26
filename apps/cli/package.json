@@ -1,0 +1,11 @@
+{
+  "name": "@latch/cli",
+  "version": "0.1.0",
+  "dependencies": {
+    "@latch/core": "*"
+  },
+  "private": true,
+  "scripts": {
+    "build": "cargo build -p latch-cli --bin latch"
+  }
+}

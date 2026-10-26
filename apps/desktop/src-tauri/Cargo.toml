@@ -1,0 +1,42 @@
+[package]
+name = "latch-desktop"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+default-run = "latch-desktop"
+
+[lib]
+name = "latch_desktop"
+
+[[bin]]
+name = "latch-desktop"
+path = "src/main.rs"
+
+[features]
+default = ["desktop"]
+desktop = []
+
+[dependencies]
+latch-rpc = { path = "../../../packages/rpc" }
+latch = { package = "latch-core", path = "../../../packages/core" }
+serde = { version = "1", features = ["derive"] }
+prost = "0.14"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "io-util", "sync", "time", "signal"] }
+libc = "0.2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-clipboard-manager = { version = "2" }
+tauri-plugin-dialog = { version = "2" }
+tauri-plugin-single-instance = { version = "2" }
+tauri-plugin-global-shortcut = { version = "2" }
+tauri-plugin-autostart = { version = "2" }
+tauri-plugin-notification = { version = "2" }
+
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dev-dependencies]
+serde_json = "1"
+tempfile = "3"

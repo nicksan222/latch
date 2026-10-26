@@ -1,0 +1,11 @@
+---
+import { LandingDemo } from '../../../desktop/src/demo/landing-demo';
+import '@latch/ui/styles.css';
+---
+<!doctype html><html lang="en" class="dark"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="robots" content="noindex" /><title>Latch interactive demo</title><script is:inline>try { document.documentElement.classList.toggle('dark', localStorage.getItem('latch-site-theme') !== 'light'); } catch {}</script></head><body><LandingDemo client:only="react" /><script>
+function syncTheme() {
+  try { document.documentElement.classList.toggle('dark', localStorage.getItem('latch-site-theme') !== 'light'); } catch {}
+}
+window.addEventListener('storage', syncTheme);
+</script></body></html>
+<style is:global>html,body { margin:0; height:100%; overflow:hidden; } button { cursor:pointer; }</style>
