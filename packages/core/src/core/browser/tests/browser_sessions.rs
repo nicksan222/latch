@@ -413,15 +413,15 @@ fn firefox_launch() {
     assert!(e.archive(&v, &pid).exists());
 }
 
-/// Managed Firefox smoke test. It uses an already cached runtime and never downloads.
+/// Explicit real-runtime archive coverage; provision or fail, never silently skip.
 #[test]
 #[ignore]
 fn real_managed_firefox_smoke() {
-    let runtime_root = latch::core::paths::data_dir().join("browser-runtime");
-    let Ok(Some(firefox)) = cb::runtime::cached(&runtime_root) else {
-        return;
-    };
     let mut e = env();
+    let runtime_root = std::env::var_os("LATCH_NATIVE_BROWSER_CACHE")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| e.root.join("browser-runtime"));
+    let firefox = cb::runtime::ensure(&runtime_root).expect("provision pinned Firefox for archive acceptance");
     e.cfg.browser_override = Some(firefox);
     let (v, pid) = e.vault();
     let m = e.manager();
