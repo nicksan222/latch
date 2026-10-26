@@ -2,6 +2,7 @@
 #[cfg(feature = "containers")]
 pub mod containers;
 pub mod demo;
+pub mod e2e;
 pub mod fixtures;
 pub mod native_browser;
 pub mod release;
