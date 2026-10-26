@@ -24,7 +24,7 @@ ed25519-dalek = { version = "2", features = ["rand_core", "zeroize"] }
 hkdf = "0.12"
 sha1 = "0.10"
 sha2 = "0.10"
-hmac = "0.12"
+hmac = "0.13"
 x25519-dalek = { version = "2", features = ["static_secrets"] }
 bech32 = "0.11"
 rand = "0.8"
