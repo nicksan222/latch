@@ -26,7 +26,7 @@ sha1 = "0.10"
 sha2 = "0.10"
 hmac = "0.12"
 x25519-dalek = { version = "2", features = ["static_secrets"] }
-bech32 = "0.11"
+bech32 = "0.12"
 rand = "0.8"
 getrandom = "0.2"
 zeroize = { version = "1", features = ["derive"] }
