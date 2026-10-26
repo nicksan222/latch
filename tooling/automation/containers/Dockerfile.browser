@@ -1,0 +1,8 @@
+FROM test-base AS browser-tests
+COPY --chown=vscode:vscode source/ /workspace/
+USER vscode
+RUN cargo build --locked -p latch-automation --bin latch-automation \
+    && cargo test --locked --no-default-features -p latch-automation --features browser-acceptance --test native_browser --no-run \
+    && cargo test --locked --no-default-features -p latch-core --test rpc_external --test browser_sessions --no-run \
+    && cargo run --locked --no-default-features -p latch-core --example managed_browser -- /home/vscode/.cache/latch-browser-tests
+CMD ["xvfb-run", "-a", "dbus-run-session", "--", "cargo", "run", "--locked", "-p", "latch-automation", "--bin", "latch-automation", "--", "test-browser"]
