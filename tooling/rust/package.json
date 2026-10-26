@@ -1,0 +1,17 @@
+{
+  "name": "@latch/rust-tooling",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "check": "node run.mjs check",
+    "check:desktop": "node run.mjs all --desktop",
+    "check:rust": "node run.mjs all",
+    "clippy": "node run.mjs clippy",
+    "docs": "node run.mjs docs",
+    "format": "node run.mjs format",
+    "format:check": "node run.mjs format:check",
+    "quality": "node run.mjs quality",
+    "test": "node run.mjs test"
+  },
+  "type": "module"
+}

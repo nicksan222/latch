@@ -1,0 +1,9 @@
+* text=auto eol=lf
+*.age binary
+*.png binary
+*.gif binary
+*.ico binary
+*.icns binary
+*.woff2 binary
+# Preserve compiler-generated Protobuf output verbatim.
+packages/rpc/ts/** whitespace=-blank-at-eof

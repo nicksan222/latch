@@ -1,0 +1,15 @@
+{
+  "name": "@latch/development",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "desktop": "python3 desktop/desktop.py app",
+    "desktop:shot": "python3 desktop/desktop.py shot",
+    "desktop:status": "python3 desktop/desktop.py status",
+    "desktop:stop": "python3 desktop/desktop.py stop",
+    "desktop:wait": "python3 desktop/desktop.py wait",
+    "native": "bash dev-native.sh",
+    "test": "python3 -m unittest discover -p \"test_*.py\" && python3 -m unittest discover -s desktop -p \"test_*.py\""
+  },
+  "type": "module"
+}

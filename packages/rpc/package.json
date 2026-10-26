@@ -1,0 +1,13 @@
+{
+  "name": "@latch/rpc",
+  "version": "0.1.0",
+  "dependencies": {
+    "@bufbuild/protobuf": "2.16.0"
+  },
+  "exports": {
+    "./v1": "./ts/latch/v1/index.ts"
+  },
+  "private": true,
+  "sideEffects": false,
+  "type": "module"
+}

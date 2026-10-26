@@ -1,0 +1,14 @@
+---
+import Icon from './Icon.astro';
+import { LatchMark } from '@latch/ui/latch-mark';
+import { withBase, resolveSite } from '../lib/site.mjs';
+interface Props { home?: boolean }
+const { home = false } = Astro.props;
+const { repository } = resolveSite();
+const readme = `${repository}#readme`;
+---
+<header class:list={["site-header", home && "home-header"]}><div class="header-inner">
+  <a class="brand" href={withBase(import.meta.env.BASE_URL)} aria-label="Latch home"><span class="brand-icon"><LatchMark width={28} height={28} /></span>Latch</a>
+  <nav aria-label="Main navigation" class="main-nav"><a href={readme}>README</a>{repository && <a href={repository}>GitHub <Icon name="external" size={14} /></a>}</nav>
+  <div class="header-tools"><button class="icon-button theme-toggle" type="button" aria-label="Switch to light theme"><Icon name="sun" size={19} class="sun-icon" /><Icon name="moon" size={19} class="moon-icon" /></button></div>
+</div></header>

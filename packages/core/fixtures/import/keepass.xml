@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<KeePassFile>
+	<Meta>
+		<Generator>KeePass</Generator>
+		<DatabaseName>Fixture</DatabaseName>
+		<RecycleBinEnabled>True</RecycleBinEnabled>
+		<RecycleBinUUID>cmVjeWNsZWJpbnV1aWQ9PQ==</RecycleBinUUID>
+		<Binaries>
+			<Binary ID="0" Compressed="True">H4sIAAAAAAAC/9PVBQInV3dPPwVn16AQTzdPZ8cQV5CgLldaZkVJaVGqQmJJSWJyRm5qXgkXWMLVzwVTMQAz3MuwSQAAAA==</Binary>
+			<Binary ID="1" Compressed="False">cGxhaW4gYXR0YWNobWVudAo=</Binary>
+		</Binaries>
+	</Meta>
+	<Root>
+		<Group>
+			<UUID>cm9vdGdyb3VwdXVpZD09PQ==</UUID>
+			<Name>Fixture</Name>
+			<Entry>
+				<UUID>ZW50cnlyb290MDAwMDAwMA==</UUID>
+				<Tags>personal;mail</Tags>
+				<String><Key>Title</Key><Value>Mail</Value></String>
+				<String><Key>UserName</Key><Value>alice@mail.test</Value></String>
+				<String><Key>Password</Key><Value ProtectInMemory="True">fixture-mail-pass</Value></String>
+				<String><Key>URL</Key><Value>https://mail.test</Value></String>
+				<String><Key>Notes</Key><Value>main inbox</Value></String>
+				<String><Key>otp</Key><Value>otpauth://totp/Mail?secret=JBSWY3DPEHPK3PXP&amp;digits=8</Value></String>
+				<String><Key>PIN</Key><Value ProtectInMemory="True">fixture-pin</Value></String>
+				<String><Key>Department</Key><Value>Ops</Value></String>
+				<History>
+					<Entry>
+						<String><Key>Title</Key><Value>Mail (old)</Value></String>
+						<String><Key>Password</Key><Value>old-history-pass</Value></String>
+					</Entry>
+				</History>
+			</Entry>
+			<Group>
+				<UUID>d29ya2dyb3VwdXVpZD09PQ==</UUID>
+				<Name>Work</Name>
+				<Entry>
+					<UUID>ZW50cnl3b3JrMDAwMDAwMA==</UUID>
+					<String><Key>Title</Key><Value>VPN</Value></String>
+					<String><Key>UserName</Key><Value>alice</Value></String>
+					<String><Key>Password</Key><Value ProtectInMemory="True">fixture-vpn-pass</Value></String>
+					<String><Key>URL</Key><Value>https://vpn.work.test</Value></String>
+					<String><Key>TimeOtp-Secret-Base32</Key><Value>JBSWY3DPEHPK3PXP</Value></String>
+					<String><Key>TimeOtp-Algorithm</Key><Value>HMAC-SHA-256</Value></String>
+					<Binary><Key>client.crt</Key><Value Ref="0" /></Binary>
+				</Entry>
+				<Group>
+					<UUID>c3ViZ3JvdXB1dWlkMD09PQ==</UUID>
+					<Name>Servers</Name>
+					<Entry>
+						<UUID>ZW50cnlzZXJ2ZXIwMDAwMA==</UUID>
+						<String><Key>Title</Key><Value>Runbook</Value></String>
+						<String><Key>UserName</Key><Value></Value></String>
+						<String><Key>Password</Key><Value></Value></String>
+						<String><Key>URL</Key><Value></Value></String>
+						<String><Key>Notes</Key><Value>restart with systemctl</Value></String>
+					</Entry>
+					<Entry>
+						<UUID>ZW50cnlmaWxlczAwMDAwMA==</UUID>
+						<String><Key>Title</Key><Value>Files</Value></String>
+						<String><Key>Password</Key><Value></Value></String>
+						<Binary><Key>notes.txt</Key><Value Ref="1" /></Binary>
+					</Entry>
+				</Group>
+			</Group>
+			<Group>
+				<UUID>cmVjeWNsZWJpbnV1aWQ9PQ==</UUID>
+				<Name>Recycle Bin</Name>
+				<Entry>
+					<String><Key>Title</Key><Value>Trashed</Value></String>
+					<String><Key>Password</Key><Value>trashed-pass</Value></String>
+				</Entry>
+			</Group>
+		</Group>
+	</Root>
+</KeePassFile>

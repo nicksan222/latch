@@ -1,0 +1,5 @@
+/* Caveat, Google Fonts, SIL Open Font License. License: /fonts/OFL.txt. */
+@font-face { font-family: 'Latch Hand'; src: url('../assets/caveat-variable.ttf') format('truetype'); font-style: normal; font-weight: 400 700; font-display: swap; }
+
+/* DM Sans, Google Fonts, SIL Open Font License. */
+@font-face { font-family: 'DM Sans'; src: url('../assets/dm-sans.ttf') format('truetype'); font-style: normal; font-weight: 100 1000; font-display: swap; }
