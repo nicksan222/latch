@@ -230,7 +230,9 @@
       "packages/core/src/core/browser/tests/browser_sessions.rs",
       "packages/core/src/core/browser/tests/credentials.rs",
       "packages/core/src/rpc/tests/external/native_browser.rs",
-      "tooling/automation/src/native_browser.rs"
+      "tooling/automation/src/native_browser.rs",
+      "tooling/automation/tests/native_browser.rs",
+      "tooling/automation/src/native_browser/fixture.rs"
     ]
   },
   {
