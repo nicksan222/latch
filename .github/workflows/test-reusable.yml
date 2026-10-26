@@ -1,0 +1,220 @@
+name: 🧪 Checks
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  CI: 'true'
+  CARGO_TERM_COLOR: always
+  CARGO_BUILD_JOBS: '2'
+
+jobs:
+  secrets:
+    name: 🔎 Publication secret scan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - name: Scan source with pinned Gitleaks
+        run: |
+          curl --fail --location --retry 3 https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz --output "$RUNNER_TEMP/gitleaks.tar.gz"
+          printf '%s  %s\n' '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb' "$RUNNER_TEMP/gitleaks.tar.gz" | sha256sum --check
+          tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP" gitleaks
+          "$RUNNER_TEMP/gitleaks" dir . --redact=100
+
+  javascript:
+    name: 🧹 Quality and frontend
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Select Rust and install headless dependencies
+        run: |
+          rustup show active-toolchain
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y pkg-config libssl-dev libxcb1-dev libx11-dev
+      - name: Nonmutating quality checks
+        run: |
+          npm run format:check
+          npm run lint
+          npm run typecheck
+          npm run fallow
+          npm run react-doctor
+          npm run audit
+      - name: Frontend and development-tool tests
+        run: |
+          npm run test:quality
+          npm test
+          npm run test:dev
+      - name: Install browser and Linux browser dependencies
+        run: npm exec -- playwright install --with-deps chromium
+      - name: Install Firefox and verify native login integration
+        run: |
+          npm exec -- playwright install-deps firefox
+          xvfb-run -a npm run test:browser:native
+      - run: npm run test:e2e
+      - run: npm run build:desktop
+      - name: Upload desktop-browser failure evidence only
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: desktop-browser-failure-${{ github.run_attempt }}
+          path: |
+            .dev/test-results/
+          # .dev is hidden; only the explicit allowlisted path are eligible.
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 3
+
+  rust:
+    name: 🦀 Linux feature contracts, Rust and protocol
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      CARGO_TARGET_DIR: /home/runner/.cache/latch-targets/ci-headless
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install headless native dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y pkg-config libssl-dev libxcb1-dev libx11-dev
+      - name: Select repository Rust toolchain
+        # rustup reads the exact channel/components from rust-toolchain.toml.
+        run: |
+          rustup show active-toolchain
+          rustc --version
+      - run: npm ci
+      - run: npm run check:protocol
+      - run: npm run check:rust
+      # Feature inventory rejects empty/misspelled selectors before a false green.
+      - run: npm run test:features
+      - run: npm run test:rust
+      - run: npm run test:seed
+
+  macos-features:
+    name: 🍎 macOS ${{ matrix.arch }} headless Rust checks
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            arch: arm64
+            host: aarch64-apple-darwin
+          - runner: macos-15-intel
+            arch: x86_64
+            host: x86_64-apple-darwin
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 55
+    env:
+      CARGO_TARGET_DIR: /Users/runner/.cache/latch-targets/ci-features
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24'
+      - name: Select repository Rust toolchain
+        run: |
+          rustup show active-toolchain
+          rustc --version
+          rustc -vV | grep -F 'host: ${{ matrix.host }}'
+      - run: npm ci
+      - name: Install Firefox and verify native login integration
+        run: npm run test:browser:native
+      - name: Build and check the native desktop
+        run: |
+          npm run build:desktop
+          npm run check:desktop
+      - name: Compile Rust workspace without native desktop
+        run: cargo check --locked --workspace --exclude latch-desktop --exclude latch-web-bridge --no-default-features
+      # This command needs Node, Cargo and Git, not frontend/native dependencies.
+      - name: Real Git, encrypted vault and adapter feature scenarios
+        run: npm run test:features -- rpc git vault profiles secrets environment import-export history recipients totp passwords
+
+  linux-arm64:
+    name: 🐧 Linux arm64 browser-session contracts
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 35
+    env:
+      CARGO_TARGET_DIR: /home/runner/.cache/latch-targets/ci-arm64
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Select repository Rust toolchain and verify architecture
+        run: |
+          rustup show active-toolchain
+          rustc --version
+          rustc -vV | grep -F 'host: aarch64-unknown-linux-gnu'
+      - name: Install headless native dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y pkg-config libssl-dev libxcb1-dev libx11-dev
+      - run: npm ci
+      - name: Install Firefox and verify native login integration
+        run: |
+          npm exec -- playwright install-deps firefox
+          xvfb-run -a npm run test:browser:native
+      - name: Browser session contracts on native arm64
+        run: npm run test:features -- browser
+
+  desktop:
+    name: 🖥️ Linux desktop
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - name: Build local development image
+        run: docker build --file .devcontainer/Dockerfile --tag latch-ci-desktop .
+      - name: Build, test, and lint the native desktop
+        # Root is confined to this disposable container/runner. Anonymous volumes
+        # keep root-owned node_modules and build outputs off the checkout mount.
+        # No Docker socket, credentials, user config, or vault is mounted.
+        run: |
+          docker run --rm --shm-size=1g \
+            --mount "type=bind,source=$GITHUB_WORKSPACE,target=/workspace" \
+            --volume /workspace/node_modules \
+            --volume /workspace/target \
+            --workdir /workspace \
+            --env CI=true \
+            --env CARGO_BUILD_JOBS=2 \
+            --env CARGO_TARGET_DIR=/workspace/target \
+            latch-ci-desktop bash -euo pipefail -c '
+              node --version
+              rustup show active-toolchain
+              rustc --version
+              npm ci
+              npm run build:desktop
+              cargo build --locked -p latch-desktop
+              xvfb-run -a dbus-run-session -- cargo test --locked -p latch-desktop
+              cargo clippy --locked -p latch-desktop --all-targets -- -D warnings
+            '

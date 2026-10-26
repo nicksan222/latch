@@ -1,0 +1,15 @@
+{
+  "name": "@latch/codegen",
+  "version": "0.1.0",
+  "devDependencies": {
+    "@bufbuild/protobuf": "2.16.0",
+    "@bufbuild/protoc-gen-es": "2.16.0"
+  },
+  "private": true,
+  "scripts": {
+    "check": "node generate.mjs --check",
+    "generate": "node generate.mjs",
+    "test": "node --test *.test.mjs"
+  },
+  "type": "module"
+}

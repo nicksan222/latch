@@ -1,0 +1,1094 @@
+syntax = "proto3";
+package latch.v1;
+
+// Authoritative typed wire contract. No generic method/JSON RPC is exposed.
+// Optional secret scalars preserve absent (keep) versus present empty (clear).
+message Empty {}
+message HookParams { string path = 1; optional string executable = 2; }
+message HookResult { optional string path = 1; bool removed = 2; }
+message StringValue { string value = 1; }
+message UInt32Value { uint32 value = 1; }
+message OptionalString { optional string value = 1; }
+message OptionalEntryInput { EntryInput value = 1; }
+message OptionalDomainRecipientKeyKind { optional DomainRecipientKeyKind value = 1; }
+message OptionalParsedOtpauth { ParsedOtpauth value = 1; }
+message StringMap { map<string, string> items = 1; }
+message DomainEnvVarList { repeated EnvVar items = 1; }
+message DomainStringList { repeated string items = 1; }
+message DomainDiffRowList { repeated DomainDiffRow items = 1; }
+message OptionalStringList { repeated string items = 1; }
+
+enum DomainRecipientKeyKind {
+  DOMAIN_RECIPIENT_KEY_KIND_UNSPECIFIED = 0;
+  DOMAIN_RECIPIENT_KEY_KIND_AGE = 1; // legacy: age
+  DOMAIN_RECIPIENT_KEY_KIND_SSH = 2; // legacy: ssh
+  DOMAIN_RECIPIENT_KEY_KIND_PLUGIN = 3; // legacy: plugin
+}
+
+enum ErrorCode {
+  ERROR_CODE_UNSPECIFIED = 0;
+  ERROR_CODE_LOCKED = 1; // legacy: locked
+  ERROR_CODE_NO_VAULT = 2; // legacy: no_vault
+  ERROR_CODE_NOT_FOUND = 3; // legacy: not_found
+  ERROR_CODE_ALREADY_EXISTS = 4; // legacy: already_exists
+  ERROR_CODE_INVALID_PARAMS = 5; // legacy: invalid_params
+  ERROR_CODE_BAD_CREDENTIALS = 6; // legacy: bad_credentials
+  ERROR_CODE_INTEGRITY = 7; // legacy: integrity
+  ERROR_CODE_CONFLICT = 8; // legacy: conflict
+  ERROR_CODE_DENIED = 9; // legacy: denied
+  ERROR_CODE_UNSUPPORTED_VERSION = 10; // legacy: unsupported_version
+  ERROR_CODE_GIT = 11; // legacy: git
+  ERROR_CODE_IO = 12; // legacy: io
+  ERROR_CODE_INTERNAL = 13; // legacy: internal
+}
+
+enum ClientKind {
+  CLIENT_KIND_UNSPECIFIED = 0;
+  CLIENT_KIND_CLI = 1; // legacy: cli
+  CLIENT_KIND_DESKTOP = 2; // legacy: desktop
+}
+
+enum AgentEventKind {
+  AGENT_EVENT_KIND_UNSPECIFIED = 0;
+  AGENT_EVENT_KIND_LOCKED = 1; // legacy: locked
+  AGENT_EVENT_KIND_UNLOCKED = 2; // legacy: unlocked
+  AGENT_EVENT_KIND_VAULT_CHANGED = 3; // legacy: vault_changed
+  AGENT_EVENT_KIND_PROFILES_CHANGED = 4; // legacy: profiles_changed
+  AGENT_EVENT_KIND_ENTRIES_CHANGED = 5; // legacy: entries_changed
+  AGENT_EVENT_KIND_BROWSER_CHANGED = 6; // legacy: browser_changed
+  AGENT_EVENT_KIND_SYNC_CHANGED = 7; // legacy: sync_changed
+  AGENT_EVENT_KIND_LOCK_WARNING = 8; // legacy: lock_warning
+}
+
+enum RecipientKind {
+  RECIPIENT_KIND_UNSPECIFIED = 0;
+  RECIPIENT_KIND_PASSPHRASE = 1; // legacy: passphrase
+  RECIPIENT_KIND_AGE = 2; // legacy: age
+  RECIPIENT_KIND_SSH = 3; // legacy: ssh
+  RECIPIENT_KIND_PLUGIN = 4; // legacy: plugin
+  RECIPIENT_KIND_RECOVERY = 5; // legacy: recovery
+}
+
+// Legacy values remain wire-compatible. Product launches use managed Firefox only.
+enum BrowserEngine {
+  BROWSER_ENGINE_UNSPECIFIED = 0;
+  BROWSER_ENGINE_CHROMIUM = 1; // legacy: chromium
+  BROWSER_ENGINE_CHROME = 2; // legacy: chrome
+  BROWSER_ENGINE_BRAVE = 3; // legacy: brave
+  BROWSER_ENGINE_EDGE = 4; // legacy: edge
+  BROWSER_ENGINE_FIREFOX = 5; // legacy: firefox
+}
+
+enum AutofillScope {
+  AUTOFILL_SCOPE_UNSPECIFIED = 0;
+  AUTOFILL_SCOPE_ALL = 1; // legacy: all
+  AUTOFILL_SCOPE_SELECTED = 2; // legacy: selected
+  AUTOFILL_SCOPE_NONE = 3; // legacy: none
+}
+
+enum EntryType {
+  ENTRY_TYPE_UNSPECIFIED = 0;
+  ENTRY_TYPE_LOGIN = 1; // legacy: login
+  ENTRY_TYPE_SECRET = 2; // legacy: secret
+  ENTRY_TYPE_ENV = 3; // legacy: env
+  ENTRY_TYPE_FILE = 4; // legacy: file
+  ENTRY_TYPE_NOTE = 5; // legacy: note
+  ENTRY_TYPE_SSH_KEY = 6; // legacy: ssh_key
+  ENTRY_TYPE_DATABASE = 7; // legacy: database
+  ENTRY_TYPE_API_KEY = 8; // legacy: api_key
+}
+
+enum TotpAlgorithm {
+  TOTP_ALGORITHM_UNSPECIFIED = 0;
+  TOTP_ALGORITHM_SHA1 = 1; // legacy: SHA1
+  TOTP_ALGORITHM_SHA256 = 2; // legacy: SHA256
+  TOTP_ALGORITHM_SHA512 = 3; // legacy: SHA512
+}
+
+enum EnvFormat {
+  ENV_FORMAT_UNSPECIFIED = 0;
+  ENV_FORMAT_DOTENV = 1; // legacy: dotenv
+  ENV_FORMAT_EXPORT = 2; // legacy: export
+  ENV_FORMAT_JSON = 3; // legacy: json
+}
+
+enum VaultTrustState {
+  VAULT_TRUST_STATE_UNSPECIFIED = 0;
+  VAULT_TRUST_STATE_FIRST_USE = 1; // legacy: first_use
+  VAULT_TRUST_STATE_PINNED = 2; // legacy: pinned
+  VAULT_TRUST_STATE_STALE = 3; // legacy: stale
+}
+
+enum SyncMode {
+  SYNC_MODE_UNSPECIFIED = 0;
+  SYNC_MODE_BOTH = 1; // legacy: both
+  SYNC_MODE_PULL_ONLY = 2; // legacy: pull_only
+  SYNC_MODE_PUSH_ONLY = 3; // legacy: push_only
+}
+
+enum Resolution {
+  RESOLUTION_UNSPECIFIED = 0;
+  RESOLUTION_MINE = 1; // legacy: mine
+  RESOLUTION_THEIRS = 2; // legacy: theirs
+  RESOLUTION_MERGED = 3; // legacy: merged
+}
+
+enum ImportFormat {
+  IMPORT_FORMAT_UNSPECIFIED = 0;
+  IMPORT_FORMAT_DOTENV = 1; // legacy: dotenv
+  IMPORT_FORMAT_BITWARDEN = 2; // legacy: bitwarden
+  IMPORT_FORMAT_ONE_PASSWORD_CSV = 3; // legacy: one_password_csv
+  IMPORT_FORMAT_KEEPASS_XML = 4; // legacy: keepass_xml
+  IMPORT_FORMAT_BROWSER_CSV = 5; // legacy: browser_csv
+  IMPORT_FORMAT_PASS = 6; // legacy: pass
+  IMPORT_FORMAT_JSON = 7; // legacy: json
+  IMPORT_FORMAT_YAML = 8; // legacy: yaml
+  IMPORT_FORMAT_LATCH_ARCHIVE = 9; // legacy: latch_archive
+}
+
+enum ExportFormat {
+  EXPORT_FORMAT_UNSPECIFIED = 0;
+  EXPORT_FORMAT_LATCH_ARCHIVE = 1; // legacy: latch_archive
+  EXPORT_FORMAT_JSON = 2; // legacy: json
+  EXPORT_FORMAT_DOTENV = 3; // legacy: dotenv
+}
+
+enum Severity {
+  SEVERITY_UNSPECIFIED = 0;
+  SEVERITY_INFO = 1; // legacy: info
+  SEVERITY_WARNING = 2; // legacy: warning
+  SEVERITY_ERROR = 3; // legacy: error
+}
+
+enum Theme {
+  THEME_UNSPECIFIED = 0;
+  THEME_SYSTEM = 1; // legacy: system
+  THEME_LIGHT = 2; // legacy: light
+  THEME_DARK = 3; // legacy: dark
+}
+
+message DomainEntryTypeMetadata {
+  EntryType type = 1;
+  string label = 2;
+  optional string primary_copy_field = 3;
+  EntryPayload default_payload = 4;
+}
+
+message DomainCatalog {
+  repeated DomainEntryTypeMetadata entry_types = 1;
+  BrowserSettings default_browser_settings = 2;
+  Settings default_settings = 3;
+  TotpConfig default_totp = 4;
+}
+
+message ParsedOtpauth {
+  TotpConfig totp = 1;
+  optional string account = 2;
+}
+
+message PasswordStrength {
+  uint32 score = 1; // legacy_uint_bits: 8
+  string label = 2;
+  uint32 bits = 3;
+  repeated string hints = 4;
+}
+
+message EntryDefaultsInput {
+  string profile_id = 1;
+  EntryType entry_type = 2;
+}
+
+message ReadFieldInput {
+  EntryPayload payload = 1;
+  string path = 2;
+}
+
+message RedactedPayload {
+  EntryPayload payload = 1;
+  repeated string redacted = 2;
+}
+
+message PayloadMergeInput {
+  EntryPayload stored = 1;
+  EntryPayload input = 2;
+}
+
+message MergeEntriesInput {
+  EntryInput mine = 1;
+  EntryInput theirs = 2;
+  repeated string from_theirs = 3;
+}
+
+message DomainEnvFormatInput {
+  repeated EnvPair vars = 1;
+  EnvFormat format = 2;
+}
+
+message ValidateRecipientInput {
+  string label = 1;
+  string key = 2;
+  repeated RecipientInfo existing = 3;
+}
+
+message DiffRowsInput {
+  EntryInput mine = 1; // legacy_optional: true
+  EntryInput theirs = 2; // legacy_optional: true
+}
+
+message DomainDiffRow {
+  string field = 1;
+  string mine = 2;
+  string theirs = 3;
+  bool differs = 4;
+  bool content_differs = 5;
+}
+
+message RpcError {
+  ErrorCode code = 1;
+  string message = 2;
+}
+
+message HelloParams {
+  ClientKind client = 1;
+  string version = 2;
+}
+
+message HelloResult {
+  string agent_version = 1;
+  uint32 protocol = 2;
+}
+
+message AgentEvent {
+  AgentEventKind kind = 1;
+  optional string profile_id = 2; // legacy_omittable: true
+  optional string entry_id = 3; // legacy_omittable: true
+  optional string message = 4; // legacy_omittable: true
+}
+
+message VaultStatus {
+  bool initialized = 1;
+  bool locked = 2;
+  optional string vault_id = 3;
+  optional string path = 4;
+  repeated RecipientInfo recipients = 5;
+  bool dirty = 6;
+  uint32 ahead = 7;
+  uint32 behind = 8;
+  bool has_remote = 9;
+  optional string last_sync_at = 10;
+  optional uint64 locks_in_secs = 11;
+  TrustStatus trust = 12; // legacy_optional: true
+  repeated string integrity_problems = 13;
+  bool rotation_pending = 14;
+  optional bool memory_locked = 15;
+}
+
+message TrustStatus {
+  VaultTrustState state = 1;
+  string fingerprint = 2;
+  uint64 key_seq = 3;
+}
+
+message ForgetTrustParams {
+  bool confirm = 1; // legacy_default: true
+}
+
+message RecipientInfo {
+  string label = 1;
+  RecipientKind kind = 2;
+  string public_key = 3;
+  optional string added_at = 4;
+}
+
+message KdfParams {
+  uint32 memory_kib = 1;
+  uint32 iterations = 2;
+  uint32 parallelism = 3;
+}
+
+message InitParams {
+  string path = 1;
+  string passphrase = 2;
+  KdfParams kdf = 3; // legacy_optional: true
+  optional string git_name = 4;
+  optional string git_email = 5;
+  optional string remote_url = 6;
+  bool recovery_kit = 7;
+}
+
+message InitResult {
+  VaultStatus status = 1;
+  RecoveryKit recovery_kit = 2; // legacy_optional: true
+}
+
+message RecoveryKit {
+  string vault_id = 1;
+  string passphrase_public_key = 2;
+  string recovery_public_key = 3;
+  string recovery_secret_key = 4;
+  string document = 5;
+}
+
+message CloneParams {
+  string url = 1;
+  string path = 2;
+}
+
+message OpenParams {
+  string path = 1;
+}
+
+message KnownVault {
+  string path = 1;
+  string vault_id = 2;
+  bool active = 3;
+}
+
+message UnlockParams {
+  optional string passphrase = 1;
+  optional string identity_file = 2;
+  optional uint64 timeout_secs = 3;
+}
+
+message KdfBenchmarkParams {
+  uint32 target_ms = 1;
+}
+
+message KdfBenchmark {
+  KdfParams params = 1;
+  uint32 measured_ms = 2;
+}
+
+message ChangePassphraseParams {
+  string current = 1;
+  string new_passphrase = 2;
+}
+
+message LaunchAction {
+  string id = 1;
+  string name = 2;
+  string command = 3;
+  repeated string env_entry_ids = 4;
+  OptionalStringList env_keys = 5; // legacy_optional: true
+  repeated string urls = 6;
+}
+
+message ActionInput {
+  string name = 1;
+  string command = 2;
+  repeated string env_entry_ids = 3;
+  OptionalStringList env_keys = 4; // legacy_optional: true
+  repeated string urls = 5;
+}
+
+message ActionSaveParams {
+  string profile_id = 1;
+  optional string id = 2;
+  ActionInput input = 3;
+}
+
+message ActionListResult {
+  repeated LaunchAction actions = 1;
+  optional string working_directory = 2;
+}
+
+message ActionConfigureParams {
+  string profile_id = 1;
+  optional string working_directory = 2;
+}
+
+message ActionIdParams {
+  string profile_id = 1;
+  string action_id = 2;
+}
+
+message ProfileSummary {
+  string id = 1;
+  string name = 2;
+  string color = 3;
+  string icon = 4;
+  string description = 5;
+  bool pinned = 6;
+  uint32 entry_count = 7;
+  bool browser_running = 8;
+}
+
+message Profile {
+  string id = 1;
+  string name = 2;
+  string color = 3;
+  string icon = 4;
+  string description = 5;
+  bool pinned = 6;
+  BrowserSettings browser = 7;
+  string created_at = 8;
+  string updated_at = 9;
+}
+
+message BrowserSettings {
+  BrowserEngine engine = 1;
+  optional string binary = 2;
+  repeated string start_pages = 3;
+  repeated Bookmark bookmarks = 4;
+  bool extensions_allowed = 5;
+  AutofillScope autofill = 6;
+  repeated string autofill_entry_ids = 7;
+}
+
+message Bookmark {
+  string title = 1;
+  string url = 2;
+}
+
+message ProfileInput {
+  string name = 1;
+  string color = 2;
+  string icon = 3;
+  string description = 4;
+  bool pinned = 5;
+  BrowserSettings browser = 6;
+}
+
+message ProfileUpdateParams {
+  string id = 1;
+  ProfileInput input = 2;
+}
+
+message IdParams {
+  string id = 1;
+}
+
+message EntrySummary {
+  string id = 1;
+  string profile_id = 2;
+  EntryType type = 3; // legacy_rust_name: entry_type
+  string name = 4;
+  repeated string tags = 5;
+  bool favorite = 6;
+  optional string subtitle = 7;
+  bool has_totp = 8;
+  string updated_at = 9;
+}
+
+message Entry {
+  string id = 1;
+  string profile_id = 2;
+  string name = 3;
+  repeated string tags = 4;
+  string notes = 5;
+  bool favorite = 6;
+  string created_at = 7;
+  string updated_at = 8;
+  EntryPayload payload = 9;
+  repeated string redacted_fields = 10;
+}
+
+message EntryInput {
+  string profile_id = 1;
+  string name = 2;
+  repeated string tags = 3;
+  string notes = 4;
+  bool favorite = 5;
+  EntryPayload payload = 6;
+}
+
+message EntryUpdateParams {
+  string id = 1;
+  EntryInput input = 2;
+}
+
+message ListEntriesParams {
+  optional string profile_id = 1;
+  optional string query = 2;
+  // legacy_rust_name: entry_type
+  optional EntryType type = 3; // legacy_optional: true
+}
+
+message GetEntryParams {
+  string id = 1;
+  bool reveal = 2;
+}
+
+message RevealParams {
+  string id = 1;
+  string field = 2;
+}
+
+message RevealResult {
+  string value = 1;
+}
+
+message MoveEntryParams {
+  string id = 1;
+  string profile_id = 2;
+}
+
+message HistoryItem {
+  string commit = 1;
+  string at = 2;
+  string author = 3;
+  string message = 4;
+  repeated string changed_fields = 5;
+  bool deleted = 6;
+}
+
+message RestoreParams {
+  string id = 1;
+  string commit = 2;
+}
+
+message TrashParams {
+  optional string profile_id = 1;
+}
+
+message TrashItem {
+  string id = 1;
+  string profile_id = 2;
+  string name = 3;
+  EntryType type = 4; // legacy_rust_name: entry_type
+  string deleted_at = 5;
+  string commit = 6;
+}
+
+message LoginData {
+  string username = 1;
+  optional string password = 2;
+  repeated string urls = 3;
+  TotpConfig totp = 4; // legacy_optional: true
+  repeated CustomField custom = 5;
+}
+
+message TotpConfig {
+  optional string secret = 1;
+  TotpAlgorithm algorithm = 2;
+  uint32 digits = 3; // legacy_uint_bits: 8
+  uint32 period = 4;
+  optional string issuer = 5;
+}
+
+message CustomField {
+  string key = 1;
+  optional string value = 2;
+  bool hidden = 3;
+}
+
+message SecretData {
+  optional string value = 1;
+}
+
+message EnvData {
+  repeated EnvVar vars = 1;
+}
+
+message EnvVar {
+  string key = 1;
+  optional string value = 2;
+  bool hidden = 3;
+  optional string comment = 4;
+}
+
+message FileData {
+  string filename = 1;
+  string mime = 2;
+  optional string content_base64 = 3;
+  uint64 size = 4;
+}
+
+message NoteData {
+  optional string body = 1;
+}
+
+message SshKeyData {
+  optional string private_key = 1;
+  string public_key = 2;
+  optional string passphrase = 3;
+  string comment = 4;
+}
+
+message DatabaseData {
+  string engine = 1;
+  string host = 2;
+  optional uint32 port = 3; // legacy_uint_bits: 16
+  string database = 4;
+  string username = 5;
+  optional string password = 6;
+  string options = 7;
+}
+
+message ApiKeyData {
+  optional string key = 1;
+  optional string secret = 2;
+  optional string endpoint = 3;
+  optional string expires_at = 4;
+}
+
+message EnvResolveParams {
+  string profile_id = 1;
+  OptionalStringList entry_ids = 2; // legacy_optional: true
+}
+
+message EnvResolveResult {
+  repeated EnvPair vars = 1;
+}
+
+message EnvPair {
+  string key = 1;
+  string value = 2;
+}
+
+message EnvFormatParams {
+  string profile_id = 1;
+  OptionalStringList entry_ids = 2; // legacy_optional: true
+  EnvFormat format = 3;
+}
+
+message TextResult {
+  string text = 1;
+}
+
+message EnvParseParams {
+  string text = 1;
+}
+
+message TotpCode {
+  string code = 1;
+  uint32 expires_in = 2;
+  uint32 period = 3;
+}
+
+message PinnedTotp {
+  string id = 1;
+  string profile_name = 2;
+  string name = 3;
+}
+
+message ClipboardCopyParams {
+  string id = 1;
+  string field = 2;
+  optional uint64 clear_after_secs = 3; // legacy_omittable: true
+}
+
+message ClipboardCopyResult {
+  uint32 clear_after_secs = 1;
+}
+
+message BrowserLaunchParams {
+  string profile_id = 1;
+  optional string url = 2;
+  optional BrowserEngine engine = 3; // legacy_optional: true
+}
+
+message BrowserSession {
+  string profile_id = 1;
+  BrowserEngine engine = 2;
+  uint32 pid = 3;
+  string started_at = 4;
+  string user_data_dir = 5;
+}
+
+message DetectedBrowser {
+  BrowserEngine engine = 1;
+  string path = 2;
+  optional string version = 3;
+}
+
+message SessionArchiveInfo {
+  bool exists = 1;
+  uint64 size_bytes = 2;
+  optional string updated_at = 3;
+  bool committed = 4;
+}
+
+message SyncStatus {
+  bool has_remote = 1;
+  optional string remote_url = 2;
+  string branch = 3;
+  uint32 ahead = 4;
+  uint32 behind = 5;
+  bool dirty = 6;
+  optional string last_sync_at = 7;
+  repeated ConflictSummary conflicts = 8;
+  repeated CommitInfo log = 9;
+}
+
+message CommitInfo {
+  string commit = 1;
+  string at = 2;
+  string author = 3;
+  string message = 4;
+}
+
+message SyncParams {
+  SyncMode mode = 1;
+}
+
+message SyncResult {
+  uint32 pulled = 1;
+  uint32 pushed = 2;
+  repeated ConflictSummary conflicts = 3;
+  SyncStatus status = 4;
+}
+
+message ConflictSummary {
+  string entry_id = 1;
+  string profile_id = 2;
+  string name = 3;
+}
+
+message ConflictDetail {
+  string entry_id = 1;
+  Entry mine = 2; // legacy_optional: true
+  Entry theirs = 3; // legacy_optional: true
+}
+
+message ResolveParams {
+  string entry_id = 1;
+  Resolution resolution = 2;
+  EntryInput merged = 3; // legacy_optional: true
+}
+
+message SetRemoteParams {
+  string url = 1;
+}
+
+message AddRecipientParams {
+  string label = 1;
+  string public_key = 2;
+}
+
+message RemoveRecipientParams {
+  string label = 1;
+}
+
+message ImportParams {
+  ImportFormat format = 1;
+  string path = 2;
+  optional string profile_id = 3;
+  bool skip_duplicates = 4;
+  optional string passphrase = 5;
+}
+
+message ImportPreview {
+  repeated ImportItem items = 1;
+  repeated string warnings = 2;
+}
+
+message ImportItem {
+  string name = 1;
+  EntryType type = 2; // legacy_rust_name: entry_type
+  string profile_name = 3;
+  bool duplicate = 4;
+}
+
+message ImportApplyResult {
+  uint32 created = 1;
+  uint32 skipped = 2;
+  uint32 profiles_created = 3;
+}
+
+message ExportParams {
+  ExportFormat format = 1;
+  string path = 2;
+  optional string profile_id = 3;
+  optional string passphrase = 4;
+}
+
+message ExportResult {
+  string path = 1;
+  uint32 entries = 2;
+}
+
+message DoctorParams {
+  bool fix = 1;
+  bool rebuild_manifest = 2;
+  bool staged = 3;
+}
+
+message DoctorReport {
+  bool ok = 1;
+  repeated DoctorIssue issues = 2;
+  repeated string fixed = 3;
+}
+
+message DoctorIssue {
+  Severity severity = 1;
+  string code = 2;
+  string message = 3;
+  optional string path = 4;
+}
+
+message Settings {
+  uint32 auto_lock_secs = 1;
+  uint32 clipboard_clear_secs = 2;
+  uint32 reveal_hide_secs = 3;
+  bool lock_on_screen_lock = 4;
+  bool tray_enabled = 5;
+  bool autostart = 6;
+  Theme theme = 7;
+  string global_shortcut = 8;
+  bool keep_browsers_open_on_lock = 9;
+  bool names_in_commits = 10;
+  bool auto_push = 11;
+  bool sessions_commit = 12;
+  optional string git_name = 13;
+  optional string git_email = 14;
+}
+
+message EntryPayload {
+  oneof data {
+    LoginData login = 1;
+    SecretData secret = 2;
+    EnvData env = 3;
+    FileData file = 4;
+    NoteData note = 5;
+    SshKeyData ssh_key = 6;
+    DatabaseData database = 7;
+    ApiKeyData api_key = 8;
+  }
+}
+
+message DomainRequest {
+  oneof operation {
+    EntryInput validate_entry = 1;
+    ProfileInput validate_profile = 2;
+    ValidateRecipientInput validate_recipient = 3;
+    StringValue recipient_key_kind = 4;
+    StringValue parse_dotenv = 5;
+    DomainEnvFormatInput format_env = 6;
+    StringValue parse_otpauth = 7;
+    UInt32Value generate_password = 8;
+    StringValue estimate_strength = 9;
+    EntryDefaultsInput entry_defaults = 10;
+    DatabaseData database_url = 11;
+    EntryPayload secret_paths = 12;
+    ReadFieldInput read_field = 13;
+    EntryPayload redact_payload = 14;
+    PayloadMergeInput merge_keep_on_none = 15;
+    EntryPayload apply_optional_clears = 16;
+    EntryInput flatten_entry = 17;
+    MergeEntriesInput merge_entries = 18;
+    Empty default_browser_settings = 19;
+    OptionalEntryInput file_digest = 20;
+    DiffRowsInput diff_rows = 21;
+  }
+}
+
+message DomainResponse {
+  oneof operation {
+    StringMap validate_entry = 1;
+    StringMap validate_profile = 2;
+    StringMap validate_recipient = 3;
+    OptionalDomainRecipientKeyKind recipient_key_kind = 4;
+    DomainEnvVarList parse_dotenv = 5;
+    StringValue format_env = 6;
+    OptionalParsedOtpauth parse_otpauth = 7;
+    StringValue generate_password = 8;
+    PasswordStrength estimate_strength = 9;
+    EntryInput entry_defaults = 10;
+    StringValue database_url = 11;
+    DomainStringList secret_paths = 12;
+    OptionalString read_field = 13;
+    RedactedPayload redact_payload = 14;
+    EntryPayload merge_keep_on_none = 15;
+    EntryPayload apply_optional_clears = 16;
+    StringMap flatten_entry = 17;
+    EntryInput merge_entries = 18;
+    BrowserSettings default_browser_settings = 19;
+    OptionalString file_digest = 20;
+    DomainDiffRowList diff_rows = 21;
+  }
+}
+
+// Authenticated local RPC over a Unix socket or an embedded Unix channel.
+// The server verifies that the peer UID matches its own. Every call, including
+// WatchEvents, requires x-latch-client (cli or desktop) and a nonempty
+// x-latch-version metadata value. Send this metadata on each request; Hello is
+// not a prerequisite for other procedures, including after reconnecting.
+service LatchAgent {
+  // legacy: domain.call; rust: domain_call; params: typed
+  rpc DomainCall (.latch.v1.DomainRequest) returns (.latch.v1.DomainResponse);
+  // legacy: hello; rust: hello; params: typed
+  rpc Hello (.latch.v1.HelloParams) returns (.latch.v1.HelloResult);
+  // legacy: vault.status; rust: vault_status; params: none
+  rpc VaultStatus (.latch.v1.Empty) returns (.latch.v1.VaultStatus);
+  // legacy: vault.init; rust: vault_init; params: typed
+  rpc VaultInit (.latch.v1.InitParams) returns (.latch.v1.InitResult);
+  // legacy: vault.clone; rust: vault_clone; params: typed
+  rpc VaultClone (.latch.v1.CloneParams) returns (.latch.v1.VaultStatus);
+  // legacy: vault.open; rust: vault_open; params: typed
+  rpc VaultOpen (.latch.v1.OpenParams) returns (.latch.v1.VaultStatus);
+  // legacy: vault.list; rust: vault_list; params: none
+  rpc VaultList (.latch.v1.Empty) returns (.latch.v1.VaultListResponse);
+  // legacy: vault.unlock; rust: vault_unlock; params: typed
+  rpc VaultUnlock (.latch.v1.UnlockParams) returns (.latch.v1.VaultStatus);
+  // legacy: vault.lock; rust: vault_lock; params: none
+  rpc VaultLock (.latch.v1.Empty) returns (.latch.v1.VaultStatus);
+  // legacy: vault.benchmarkKdf; rust: vault_benchmark_kdf; params: typed
+  rpc VaultBenchmarkKdf (.latch.v1.KdfBenchmarkParams) returns (.latch.v1.KdfBenchmark);
+  // legacy: vault.changePassphrase; rust: vault_change_passphrase; params: typed
+  rpc VaultChangePassphrase (.latch.v1.ChangePassphraseParams) returns (.latch.v1.Empty);
+  // legacy: vault.trust; rust: vault_trust; params: empty_object
+  rpc VaultTrust (.latch.v1.Empty) returns (.latch.v1.TrustStatus);
+  // legacy: vault.forgetTrust; rust: vault_forget_trust; params: typed
+  rpc VaultForgetTrust (.latch.v1.ForgetTrustParams) returns (.latch.v1.TrustStatus);
+  // legacy: profiles.list; rust: profiles_list; params: none
+  rpc ProfilesList (.latch.v1.Empty) returns (.latch.v1.ProfilesListResponse);
+  // legacy: profiles.get; rust: profiles_get; params: typed
+  rpc ProfilesGet (.latch.v1.IdParams) returns (.latch.v1.Profile);
+  // legacy: profiles.create; rust: profiles_create; params: typed
+  rpc ProfilesCreate (.latch.v1.ProfileInput) returns (.latch.v1.Profile);
+  // legacy: profiles.update; rust: profiles_update; params: typed
+  rpc ProfilesUpdate (.latch.v1.ProfileUpdateParams) returns (.latch.v1.Profile);
+  // legacy: profiles.delete; rust: profiles_delete; params: typed
+  rpc ProfilesDelete (.latch.v1.IdParams) returns (.latch.v1.Empty);
+  // legacy: entries.list; rust: entries_list; params: typed
+  rpc EntriesList (.latch.v1.ListEntriesParams) returns (.latch.v1.EntriesListResponse);
+  // legacy: entries.get; rust: entries_get; params: typed
+  rpc EntriesGet (.latch.v1.GetEntryParams) returns (.latch.v1.Entry);
+  // legacy: entries.reveal; rust: entries_reveal; params: typed
+  rpc EntriesReveal (.latch.v1.RevealParams) returns (.latch.v1.RevealResult);
+  // legacy: entries.create; rust: entries_create; params: typed
+  rpc EntriesCreate (.latch.v1.EntryInput) returns (.latch.v1.Entry);
+  // legacy: entries.update; rust: entries_update; params: typed
+  rpc EntriesUpdate (.latch.v1.EntryUpdateParams) returns (.latch.v1.Entry);
+  // legacy: entries.delete; rust: entries_delete; params: typed
+  rpc EntriesDelete (.latch.v1.IdParams) returns (.latch.v1.Empty);
+  // legacy: entries.move; rust: entries_move; params: typed
+  rpc EntriesMove (.latch.v1.MoveEntryParams) returns (.latch.v1.Entry);
+  // legacy: entries.history; rust: entries_history; params: typed
+  rpc EntriesHistory (.latch.v1.IdParams) returns (.latch.v1.EntriesHistoryResponse);
+  // legacy: entries.restore; rust: entries_restore; params: typed
+  rpc EntriesRestore (.latch.v1.RestoreParams) returns (.latch.v1.Entry);
+  // legacy: entries.trash; rust: entries_trash; params: typed
+  rpc EntriesTrash (.latch.v1.TrashParams) returns (.latch.v1.EntriesTrashResponse);
+  // legacy: actions.list; rust: actions_list; params: typed
+  rpc ActionsList (.latch.v1.IdParams) returns (.latch.v1.ActionListResult);
+  // legacy: actions.save; rust: actions_save; params: typed
+  rpc ActionsSave (.latch.v1.ActionSaveParams) returns (.latch.v1.LaunchAction);
+  // legacy: actions.delete; rust: actions_delete; params: typed
+  rpc ActionsDelete (.latch.v1.ActionIdParams) returns (.latch.v1.Empty);
+  // legacy: actions.configure; rust: actions_configure; params: typed
+  rpc ActionsConfigure (.latch.v1.ActionConfigureParams) returns (.latch.v1.Empty);
+  // legacy: actions.run; rust: actions_run; params: typed
+  rpc ActionsRun (.latch.v1.ActionIdParams) returns (.latch.v1.Empty);
+  // legacy: env.resolve; rust: env_resolve; params: typed
+  rpc EnvResolve (.latch.v1.EnvResolveParams) returns (.latch.v1.EnvResolveResult);
+  // legacy: env.format; rust: env_format; params: typed
+  rpc EnvFormat (.latch.v1.EnvFormatParams) returns (.latch.v1.TextResult);
+  // legacy: env.parse; rust: env_parse; params: typed
+  rpc EnvParse (.latch.v1.EnvParseParams) returns (.latch.v1.EnvParseResponse);
+  // legacy: env.copy; rust: env_copy; params: typed
+  rpc EnvCopy (.latch.v1.EnvFormatParams) returns (.latch.v1.ClipboardCopyResult);
+  // legacy: totp.get; rust: totp_get; params: typed
+  rpc TotpGet (.latch.v1.IdParams) returns (.latch.v1.TotpCode);
+  // legacy: totp.pinned; rust: totp_pinned; params: none
+  rpc TotpPinned (.latch.v1.Empty) returns (.latch.v1.TotpPinnedResponse);
+  // legacy: clipboard.copy; rust: clipboard_copy; params: typed
+  rpc ClipboardCopy (.latch.v1.ClipboardCopyParams) returns (.latch.v1.ClipboardCopyResult);
+  // legacy: browser.launch; rust: browser_launch; params: typed
+  rpc BrowserLaunch (.latch.v1.BrowserLaunchParams) returns (.latch.v1.BrowserSession);
+  // legacy: browser.list; rust: browser_list; params: none
+  rpc BrowserList (.latch.v1.Empty) returns (.latch.v1.BrowserListResponse);
+  // legacy: browser.close; rust: browser_close; params: typed
+  rpc BrowserClose (.latch.v1.IdParams) returns (.latch.v1.Empty);
+  // legacy: browser.reset; rust: browser_reset; params: typed
+  rpc BrowserReset (.latch.v1.IdParams) returns (.latch.v1.Empty);
+  // legacy: browser.detect; rust: browser_detect; params: none
+  rpc BrowserDetect (.latch.v1.Empty) returns (.latch.v1.BrowserDetectResponse);
+  // legacy: browser.sessionInfo; rust: browser_session_info; params: typed
+  rpc BrowserSessionInfo (.latch.v1.IdParams) returns (.latch.v1.SessionArchiveInfo);
+  // legacy: sync.status; rust: sync_status; params: none
+  rpc SyncStatus (.latch.v1.Empty) returns (.latch.v1.SyncStatus);
+  // legacy: sync.run; rust: sync_run; params: typed
+  rpc SyncRun (.latch.v1.SyncParams) returns (.latch.v1.SyncResult);
+  // legacy: sync.conflict; rust: sync_conflict; params: typed
+  rpc SyncConflict (.latch.v1.IdParams) returns (.latch.v1.ConflictDetail);
+  // legacy: sync.resolve; rust: sync_resolve; params: typed
+  rpc SyncResolve (.latch.v1.ResolveParams) returns (.latch.v1.SyncStatus);
+  // legacy: sync.setRemote; rust: sync_set_remote; params: typed
+  rpc SyncSetRemote (.latch.v1.SetRemoteParams) returns (.latch.v1.SyncStatus);
+  // legacy: recipients.list; rust: recipients_list; params: none
+  rpc RecipientsList (.latch.v1.Empty) returns (.latch.v1.RecipientsListResponse);
+  // legacy: recipients.add; rust: recipients_add; params: typed
+  rpc RecipientsAdd (.latch.v1.AddRecipientParams) returns (.latch.v1.RecipientsAddResponse);
+  // legacy: recipients.remove; rust: recipients_remove; params: typed
+  rpc RecipientsRemove (.latch.v1.RemoveRecipientParams) returns (.latch.v1.RecipientsRemoveResponse);
+  // legacy: recipients.rotate; rust: recipients_rotate; params: none
+  rpc RecipientsRotate (.latch.v1.Empty) returns (.latch.v1.RecipientsRotateResponse);
+  // legacy: import.preview; rust: import_preview; params: typed
+  rpc ImportPreview (.latch.v1.ImportParams) returns (.latch.v1.ImportPreview);
+  // legacy: import.apply; rust: import_apply; params: typed
+  rpc ImportApply (.latch.v1.ImportParams) returns (.latch.v1.ImportApplyResult);
+  // legacy: export.run; rust: export_run; params: typed
+  rpc ExportRun (.latch.v1.ExportParams) returns (.latch.v1.ExportResult);
+  // legacy: doctor.run; rust: doctor_run; params: typed
+  rpc DoctorRun (.latch.v1.DoctorParams) returns (.latch.v1.DoctorReport);
+  // legacy: settings.get; rust: settings_get; params: none
+  rpc SettingsGet (.latch.v1.Empty) returns (.latch.v1.Settings);
+  // legacy: settings.update; rust: settings_update; params: typed
+  rpc SettingsUpdate (.latch.v1.Settings) returns (.latch.v1.Settings);
+  // legacy: vault.locate; rust: vault_locate; params: typed
+  rpc VaultLocate (.latch.v1.OpenParams) returns (.latch.v1.TextResult);
+  // legacy: doctor.scan; rust: doctor_scan; params: typed
+  rpc DoctorScan (.latch.v1.OpenParams) returns (.latch.v1.DoctorReport);
+  // legacy: hooks.install; rust: hooks_install; params: typed
+  rpc HooksInstall (.latch.v1.HookParams) returns (.latch.v1.HookResult);
+  // legacy: hooks.uninstall; rust: hooks_uninstall; params: typed
+  rpc HooksUninstall (.latch.v1.HookParams) returns (.latch.v1.HookResult);
+  // legacy: totp.parse; rust: totp_parse; params: typed
+  rpc TotpParse (.latch.v1.EnvParseParams) returns (.latch.v1.TotpConfig);
+  // Server events over the same authenticated Unix socket. Not a unary legacy method.
+  rpc WatchEvents (.latch.v1.Empty) returns (stream .latch.v1.AgentEvent);
+}
+
+message VaultListResponse {
+  repeated KnownVault items = 1;
+}
+
+message ProfilesListResponse {
+  repeated ProfileSummary items = 1;
+}
+
+message EntriesListResponse {
+  repeated EntrySummary items = 1;
+}
+
+message EntriesHistoryResponse {
+  repeated HistoryItem items = 1;
+}
+
+message EntriesTrashResponse {
+  repeated TrashItem items = 1;
+}
+
+message EnvParseResponse {
+  repeated EnvVar items = 1;
+}
+
+message TotpPinnedResponse {
+  repeated PinnedTotp items = 1;
+}
+
+message BrowserListResponse {
+  repeated BrowserSession items = 1;
+}
+
+message BrowserDetectResponse {
+  repeated DetectedBrowser items = 1;
+}
+
+message RecipientsListResponse {
+  repeated RecipientInfo items = 1;
+}
+
+message RecipientsAddResponse {
+  repeated RecipientInfo items = 1;
+}
+
+message RecipientsRemoveResponse {
+  repeated RecipientInfo items = 1;
+}
+
+message RecipientsRotateResponse {
+  repeated RecipientInfo items = 1;
+}

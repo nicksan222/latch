@@ -1,0 +1,86 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "ignorePatterns": [
+    ".agents/**",
+    ".dev/**",
+    ".git/**",
+    "target/**",
+    "**/dist/**",
+    "**/dist-firefox/**",
+    "**/gen/**",
+    "**/binaries/**",
+    "**/node_modules/**",
+    "apps/landing/**"
+  ],
+  "entry": [
+    "apps/desktop/src/main.tsx",
+    "packages/core/src/core/browser/firefox-prefs.js",
+    "packages/rpc/ts/latch/v1/index.ts",
+    "packages/*/src/index.ts",
+    "packages/ui/src/components/*.{ts,tsx}",
+    "packages/ui/src/{styles.css,utils.ts,color.ts,morph-icon.tsx,visible-animation.ts}",
+    "packages/ui/src/hooks/*.ts",
+    "tooling/**/*.{test,spec}.{ts,tsx,mjs}",
+    "tooling/**/*.mjs",
+    "**/*.test.{ts,tsx,mjs}",
+    "apps/desktop/tests/e2e/**/*.spec.ts",
+    "vite.config.ts",
+    "tooling/vitest-config/vite.config.ts",
+    "apps/desktop/src/_generated/contracts/index.ts",
+    "apps/desktop/src/demo/landing-demo.tsx"
+  ],
+  "ignoreDependencies": [
+    "fallow",
+    "syncpack",
+    "react-doctor",
+    "rust-just",
+    "typescript",
+    "vite",
+    "vitest",
+    "vite-plus",
+    "@types/node",
+    "@types/react",
+    "@types/react-dom",
+    "@testing-library/jest-dom",
+    "@tauri-apps/cli",
+    "tailwindcss",
+    "@latch/core"
+  ],
+  "typeAware": {
+    "enabled": false
+  },
+  "ignoreExportsUsedInFile": true,
+  "boundaries": {
+    "zones": [
+      {
+        "name": "ui",
+        "patterns": ["packages/ui/src/**"]
+      },
+      {
+        "name": "desktop",
+        "patterns": ["apps/desktop/src/**"]
+      }
+    ],
+    "rules": [
+      {
+        "from": "ui",
+        "allow": ["ui"]
+      },
+      {
+        "from": "desktop",
+        "allow": ["desktop", "ui"]
+      }
+    ]
+  },
+  "cache": {
+    "dir": ".dev/fallow-cache"
+  },
+  "overrides": [
+    {
+      "files": ["packages/rpc/ts/**"],
+      "rules": {
+        "unused-enum-members": "off"
+      }
+    }
+  ]
+}

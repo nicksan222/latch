@@ -1,0 +1,143 @@
+{
+  "entryTypes": [
+    {
+      "type": "login",
+      "label": "Login",
+      "primaryCopyField": "password",
+      "defaultPayload": {
+        "type": "login",
+        "data": {
+          "username": "",
+          "password": "",
+          "urls": [],
+          "totp": null,
+          "custom": []
+        }
+      }
+    },
+    {
+      "type": "secret",
+      "label": "Secret",
+      "primaryCopyField": "value",
+      "defaultPayload": {
+        "type": "secret",
+        "data": {
+          "value": ""
+        }
+      }
+    },
+    {
+      "type": "env",
+      "label": "Env",
+      "primaryCopyField": null,
+      "defaultPayload": {
+        "type": "env",
+        "data": {
+          "vars": []
+        }
+      }
+    },
+    {
+      "type": "api_key",
+      "label": "API key",
+      "primaryCopyField": "key",
+      "defaultPayload": {
+        "type": "api_key",
+        "data": {
+          "key": "",
+          "secret": null,
+          "endpoint": null,
+          "expiresAt": null
+        }
+      }
+    },
+    {
+      "type": "database",
+      "label": "Database",
+      "primaryCopyField": "password",
+      "defaultPayload": {
+        "type": "database",
+        "data": {
+          "engine": "postgres",
+          "host": "",
+          "port": 5432,
+          "database": "",
+          "username": "",
+          "password": "",
+          "options": ""
+        }
+      }
+    },
+    {
+      "type": "ssh_key",
+      "label": "SSH key",
+      "primaryCopyField": "privateKey",
+      "defaultPayload": {
+        "type": "ssh_key",
+        "data": {
+          "privateKey": "",
+          "publicKey": "",
+          "passphrase": null,
+          "comment": ""
+        }
+      }
+    },
+    {
+      "type": "note",
+      "label": "Note",
+      "primaryCopyField": "body",
+      "defaultPayload": {
+        "type": "note",
+        "data": {
+          "body": ""
+        }
+      }
+    },
+    {
+      "type": "file",
+      "label": "File",
+      "primaryCopyField": null,
+      "defaultPayload": {
+        "type": "file",
+        "data": {
+          "filename": "",
+          "mime": "application/octet-stream",
+          "contentBase64": null,
+          "size": 0
+        }
+      }
+    }
+  ],
+  "defaultBrowserSettings": {
+    "engine": "firefox",
+    "binary": null,
+    "startPages": [],
+    "bookmarks": [],
+    "extensionsAllowed": true,
+    "autofill": "all",
+    "autofillEntryIds": []
+  },
+  "defaultSettings": {
+    "autoLockSecs": 900,
+    "clipboardClearSecs": 30,
+    "revealHideSecs": 30,
+    "lockOnScreenLock": true,
+    "trayEnabled": true,
+    "autostart": false,
+    "theme": "system",
+    "globalShortcut": "CmdOrCtrl+Shift+L",
+    "keepBrowsersOpenOnLock": false,
+    "namesInCommits": false,
+    "autoPush": false,
+    "sessionsCommit": false,
+    "gitName": null,
+    "gitEmail": null
+  },
+  "defaultTotp": {
+    "secret": "",
+    "algorithm": "SHA1",
+    "digits": 6,
+    "period": 30,
+    "issuer": null
+  }
+}

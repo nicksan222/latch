@@ -1,0 +1,8 @@
+# Reviewed fictional demo values and detector regression vectors, not credentials.
+apps/desktop/tests/e2e/features/secrets/secrets.spec.ts:stripe-access-token:74
+packages/core/src/core/doctor/mod.rs:stripe-access-token:907
+packages/core/tests/core_support/mod.rs:private-key:142
+packages/core/src/core/sync/mod.rs:generic-api-key:511
+tooling/web-bridge/src/fixture.rs:stripe-access-token:111
+# Deliberately public GPG import fixture: Latch Fixture <fixture@latch.invalid>.
+packages/core/fixtures/import/pass-test-key.asc:private-key:1

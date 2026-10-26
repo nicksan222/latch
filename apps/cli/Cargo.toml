@@ -1,0 +1,27 @@
+[package]
+name = "latch-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "latch"
+path = "src/main.rs"
+
+[dependencies]
+latch-rpc = { path = "../../packages/rpc" }
+latch = { package = "latch-core", path = "../../packages/core" }
+base64 = "0.22"
+clap = { version = "4", features = ["derive", "env"] }
+clap_complete = "4"
+dirs = "5"
+libc = "0.2"
+rpassword = "7"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["rt", "macros", "signal"] }
+zeroize = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+assert_cmd = "2"
+tempfile = "3"

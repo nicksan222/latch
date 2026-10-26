@@ -1,0 +1,33 @@
+# Latch vault configuration. Public by design: nothing here is secret.
+# Security-relevant fields are bound to the signed manifest; do not edit
+# [kdf], [vault] or [[recipients]] by hand.
+
+version = 1
+
+[kdf]
+algorithm = "argon2id"
+memory_kib = 256
+iterations = 1
+parallelism = 1
+salt = "/DjL3QnCVMT+ARJ2w7yD3A=="
+
+[vault]
+id = "n5r5ucvcut4eyicgzaxvr2hxoq"
+created_at = "2026-10-24T19:51:34Z"
+signing_public_key = "ed25519:u4GMVBJL/peLCHJs4wSS7GejTrWS+8rTXM0bcdyAgo0="
+
+[[recipients]]
+label = "passphrase"
+type = "passphrase"
+public_key = "age13md4xhq9n9uz0zdyuywdehv968dppz2uu23fm93pjavpee3ykacqscpgdz"
+added_at = "2026-10-24T19:51:34Z"
+
+[sessions]
+commit = false
+
+[sync]
+names_in_commits = false
+auto_push = false
+
+[hooks]
+pre_commit_scan = true

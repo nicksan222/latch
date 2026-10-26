@@ -1,0 +1,19 @@
+name: Bug report
+description: Report a reproducible defect. Report security vulnerabilities privately.
+body:
+  - type: markdown
+    attributes:
+      value: Read the README security limits before reporting. Report vulnerabilities privately through GitHub Security Advisories. Do not attach secrets, vaults, session directories, or runtime logs.
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction and expected behavior
+      description: Include minimal steps and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Latch version and operating system
+    validations:
+      required: true

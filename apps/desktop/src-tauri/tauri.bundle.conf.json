@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "build": {
+    "beforeBuildCommand": "npm run build --workspace @latch/desktop && sh ../../tooling/release/build-sidecars.sh"
+  },
+  "bundle": {
+    "linux": {
+      "deb": {
+        "depends": ["git"],
+        "files": {
+          "/usr/bin/latch": "binaries/latch",
+          "/usr/share/doc/latch/copyright": "../../../LICENSE"
+        }
+      },
+      "rpm": {
+        "depends": ["git"],
+        "files": {
+          "/usr/bin/latch": "binaries/latch",
+          "/usr/share/doc/latch/copyright": "../../../LICENSE"
+        }
+      }
+    },
+    "license": "MIT",
+    "resources": {
+      "../../../LICENSE": "LICENSE"
+    }
+  }
+}

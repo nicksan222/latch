@@ -1,0 +1,30 @@
+{
+  "$schema": "../node_modules/syncpack/schema.json",
+  "source": [
+    "package.json",
+    "apps/cli/package.json",
+    "apps/desktop/package.json",
+    "packages/*/package.json",
+    "tooling/*/package.json",
+    "tooling/web-bridge/package.json"
+  ],
+  "versionGroups": [
+    {
+      "label": "Peer dependencies may support wider consumer ranges",
+      "dependencyTypes": ["peer"],
+      "isIgnored": true
+    },
+    {
+      "label": "npm overrides reference the root dependency declarations",
+      "dependencies": ["vite", "vitest"],
+      "dependencyTypes": ["overrides"],
+      "isIgnored": true
+    },
+    {
+      "label": "npm workspaces resolve local packages",
+      "dependencies": ["@latch/**"],
+      "pinVersion": "*",
+      "dependencyTypes": ["prod", "dev"]
+    }
+  ]
+}

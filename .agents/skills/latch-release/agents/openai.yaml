@@ -1,0 +1,4 @@
+interface:
+  display_name: "Latch release"
+  short_description: "Prepare and verify Latch release artifacts"
+  default_prompt: "Use $latch-release to prepare a Latch release."

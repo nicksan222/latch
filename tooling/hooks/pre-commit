@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# Checks only: no fixes, staging, stashing, or protocol generation.
+set -eu
+cd "$(git rev-parse --show-toplevel)"
+npm run precommit

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Latch managed browser"
+  short_description: "Work on isolated managed Firefox behavior"
+  default_prompt: "Use $latch-managed-browser to work on Latch managed browser behavior."

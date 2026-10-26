@@ -1,0 +1,6 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { resolveSite } from '../lib/site.mjs';
+const readme = `${resolveSite().repository}#readme`;
+---
+<SiteLayout title="Page not found"><main id="main-content" class="not-found"><h1>This page isn’t here.</h1><p>The link may have moved. Read the project README for setup and usage information.</p><a class="button-primary" href={readme}>Open the README</a></main></SiteLayout>

@@ -1,0 +1,10 @@
+{
+  "name": "@latch/web-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node run.mjs",
+    "test": "cargo test --locked -p latch-web-bridge --no-default-features"
+  },
+  "type": "module"
+}

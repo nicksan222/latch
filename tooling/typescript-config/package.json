@@ -1,0 +1,9 @@
+{
+  "name": "@latch/typescript-config",
+  "version": "0.1.0",
+  "exports": {
+    "./base": "./base.json"
+  },
+  "private": true,
+  "type": "module"
+}

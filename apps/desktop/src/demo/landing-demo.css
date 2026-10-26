@@ -1,0 +1,87 @@
+/* Only the public preview frame. All app chrome, typography and fields are shared. */
+.landing-demo {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  min-height: 0;
+  background: var(--background);
+  color: var(--foreground);
+}
+.demo-disclosure {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 34px;
+  padding: 3px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.demo-app {
+  flex: 1;
+  min-height: 0;
+}
+.demo-app [data-slot='sidebar-inset'] {
+  height: 100%;
+}
+.demo-back {
+  display: none;
+}
+@media (max-width: 767px) {
+  .demo-disclosure {
+    padding-inline: 8px;
+  }
+  .demo-disclosure > span {
+    max-width: 27ch;
+  }
+  .demo-back {
+    display: inline-flex;
+    align-self: flex-start;
+    margin: 4px 8px;
+  }
+  .demo-app:has([data-testid='entry-detail']) section[aria-label='Entries'] {
+    display: none;
+  }
+  .demo-app:not(:has([data-testid='entry-detail'])) section[aria-label='Entries'] {
+    width: 100%;
+    border: 0;
+  }
+  .demo-app:not(:has([data-testid='entry-detail'])) section[aria-label='Entries'] + div {
+    display: none;
+  }
+  .demo-app header > div:last-child {
+    flex-wrap: wrap;
+  }
+}
+/* The desktop sidebar is viewport-fixed; anchor it to the embedded app frame. */
+.demo-app {
+  position: relative;
+}
+.demo-app [data-slot='sidebar-container'] {
+  position: absolute;
+  height: 100%;
+}
+
+@media (max-width: 767px) {
+  .demo-app header {
+    height: auto;
+    min-height: 96px;
+    flex-wrap: wrap;
+    padding-block: 8px;
+  }
+  .demo-app header > div:first-of-type {
+    flex-basis: calc(100% - 48px);
+  }
+  .demo-app header > div:last-child {
+    margin-left: auto;
+  }
+}
+
+/* Keep the marketing preview fixed; scrolling belongs to the landing document. */
+.demo-app .overflow-y-auto,
+.demo-app .overflow-auto,
+.demo-app [data-slot='scroll-area-viewport'] {
+  overflow: clip !important;
+}

@@ -1,0 +1,14 @@
+.git
+node_modules
+dist
+.dev
+test-results
+playwright-report
+
+target
+apps/*/dist
+apps/extension/dist-firefox
+apps/desktop/src-tauri/gen
+apps/desktop/src-tauri/binaries
+
+.fallow

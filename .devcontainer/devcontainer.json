@@ -1,0 +1,41 @@
+{
+  "name": "Latch desktop",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
+  "runArgs": ["--shm-size=1g"],
+  "appPort": ["127.0.0.1:5900:5900"],
+  "forwardPorts": [5900, 1422],
+  "portsAttributes": {
+    "5900": {
+      "label": "Latch native desktop (noVNC)",
+      "onAutoForward": "openBrowser",
+      "requireLocalPort": true
+    },
+    "1422": {
+      "label": "Latch desktop frontend",
+      "onAutoForward": "silent"
+    }
+  },
+  "containerEnv": {
+    "CARGO_TARGET_DIR": "/home/vscode/.cache/latch-targets/devcontainer",
+    "RUST_BACKTRACE": "1"
+  },
+  "postCreateCommand": "bash tooling/development/post-create.sh",
+  "postStartCommand": "python3 tooling/development/desktop/desktop.py start && python3 tooling/development/desktop/desktop.py app",
+  "customizations": {
+    "vscode": {
+      "extensions": ["rust-lang.rust-analyzer", "tamasfe.even-better-toml", "timonwong.shellcheck"],
+      "settings": {
+        "rust-analyzer.linkedProjects": ["Cargo.toml"],
+        "files.watcherExclude": {
+          "**/target/**": true,
+          "**/.dev/**": true
+        }
+      }
+    }
+  }
+}
