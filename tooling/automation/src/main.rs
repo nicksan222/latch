@@ -11,6 +11,8 @@ struct Cli {
 enum Task {
     /// Exercise the managed browser through Rust gRPC and native UI drivers.
     TestBrowser,
+    /// Internal worker: execute browser suites and collect synthetic failure artifacts.
+    TestE2eWorker,
     /// Run a Linux test suite in its declared Docker environment.
     #[cfg(feature = "containers")]
     TestContainer {
@@ -42,6 +44,7 @@ fn main() -> anyhow::Result<()> {
     match Cli::parse().command {
         #[cfg(feature = "containers")]
         Task::TestContainer { suite } => latch_automation::containers::run(suite),
+        Task::TestE2eWorker => latch_automation::e2e::run(),
         Task::TestBrowser => latch_automation::native_browser::run(),
         Task::Demo { args } => latch_automation::demo::run(args),
         Task::ReleaseBuild { version } => latch_automation::release::build(&version),

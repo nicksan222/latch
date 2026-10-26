@@ -35,7 +35,10 @@ test('encrypted export reimports into another profile, rejects a wrong passphras
   await expect(profileLink(page, 'archive-restored')).toBeVisible();
 
   await page.getByRole('link', { name: 'Import / Export' }).click();
-  await page.getByRole('combobox', { name: 'Format', exact: true }).click();
+  await page
+    .getByRole('tabpanel', { name: 'Import', exact: true })
+    .getByRole('combobox', { name: 'Format', exact: true })
+    .click();
   await page.getByRole('option', { name: 'Latch encrypted archive', exact: true }).click();
   await page.getByLabel('File or directory', { exact: true }).fill(archive);
   await page.getByRole('combobox', { name: 'Target profile', exact: true }).click();
@@ -94,7 +97,10 @@ test('plaintext export requires both confirmations and Cancel sends no export re
   await unlock(page);
   await page.getByRole('link', { name: 'Import / Export' }).click();
   await page.getByRole('tab', { name: 'Export', exact: true }).click();
-  await page.getByRole('combobox', { name: 'Format', exact: true }).click();
+  await page
+    .getByRole('tabpanel', { name: 'Export', exact: true })
+    .getByRole('combobox', { name: 'Format', exact: true })
+    .click();
   await page.getByRole('option', { name: 'Plaintext JSON', exact: true }).click();
   // A valid arena label ensures an accidental export would actually write.
   await page.getByLabel('Destination', { exact: true }).fill('cancelled-export.json');
@@ -119,7 +125,10 @@ test('plaintext export reports forbidden traversal without mutation', async ({ p
   await unlock(page);
   await page.getByRole('link', { name: 'Import / Export' }).click();
   await page.getByRole('tab', { name: 'Export', exact: true }).click();
-  await page.getByRole('combobox', { name: 'Format', exact: true }).click();
+  await page
+    .getByRole('tabpanel', { name: 'Export', exact: true })
+    .getByRole('combobox', { name: 'Format', exact: true })
+    .click();
   await page.getByRole('option', { name: 'Plaintext JSON', exact: true }).click();
   await page.getByLabel('Destination', { exact: true }).fill('../outside-arena.json');
   await page.getByRole('checkbox', { name: 'I understand the risk' }).check();

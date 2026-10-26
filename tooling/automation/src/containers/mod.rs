@@ -1,4 +1,5 @@
 //! Rust owns container lifecycle; Dockerfiles own the test environment.
+use crate::e2e::artifacts;
 mod context;
 use anyhow::{Context, Result, bail, ensure};
 use clap::ValueEnum;
@@ -13,12 +14,14 @@ use testcontainers::{
 pub enum Suite {
     Browser,
     Desktop,
+    E2e,
 }
 impl Suite {
     fn name(self) -> &'static str {
         match self {
             Self::Browser => "browser",
             Self::Desktop => "desktop",
+            Self::E2e => "e2e",
         }
     }
 }
@@ -60,11 +63,25 @@ async fn run_suite(suite: Suite) -> Result<()> {
     .await
     .context("test image build exceeded 60 minutes")?
     .context("build test image through Docker; run inside the devcontainer with Docker access")?;
-    run_image(image, &[], Duration::from_secs(1800)).await
+    let output = if matches!(suite, Suite::E2e) {
+        Some(artifacts::output_directory(&root)?)
+    } else {
+        None
+    };
+    run_workload(image, &[], Duration::from_secs(1800), output.as_deref()).await
 }
 
 /// Run a one-shot test image and require successful completion, not merely readiness.
 pub async fn run_image(image: GenericImage, command: &[&str], deadline: Duration) -> Result<()> {
+    run_workload(image, command, deadline, None).await
+}
+
+async fn run_workload(
+    image: GenericImage,
+    command: &[&str],
+    deadline: Duration,
+    output: Option<&std::path::Path>,
+) -> Result<()> {
     let request = image
         .with_host_config_modifier(|config| config.init = Some(true))
         .with_shm_size(1024 * 1024 * 1024)
@@ -107,13 +124,37 @@ pub async fn run_image(image: GenericImage, command: &[&str], deadline: Duration
     })
     .await
     .unwrap_or_else(|_| Err(anyhow::anyhow!("test workload exceeded its deadline")));
+    let exported = tokio::time::timeout(Duration::from_secs(30), async {
+        if let Some(output) = output {
+            let bundle = tempfile::NamedTempFile::new_in(output)?;
+            container
+                .copy_file_from(crate::e2e::ARTIFACT_ARCHIVE, bundle.path().to_path_buf())
+                .await?;
+            ensure!(
+                bundle.as_file().metadata()?.len() <= 256 * 1024 * 1024,
+                "artifact archive exceeds export limit"
+            );
+            artifacts::extract(bundle.path(), output)?;
+            println!("Test artifacts: {}", output.display());
+        }
+        Ok::<(), anyhow::Error>(())
+    })
+    .await
+    .unwrap_or_else(|_| Err(anyhow::anyhow!("test artifact export timed out")));
     let cleanup = container.rm().await;
     if let Err(error) = result {
+        if exported.is_err() {
+            eprintln!("test artifact export also failed");
+        }
         if cleanup.is_err() {
             eprintln!("test workload cleanup also failed");
         }
         bail!(error);
     }
+    exported.context("export test artifacts")?;
     cleanup.context("remove completed test workload")?;
     Ok(())
 }
+
+#[cfg(test)]
+mod tests;

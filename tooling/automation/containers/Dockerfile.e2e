@@ -1,0 +1,9 @@
+FROM test-base AS e2e-tests
+ENV PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
+COPY --chown=vscode:vscode source/ /workspace/
+RUN bun install --frozen-lockfile \
+    && bunx --no-install playwright install --with-deps chromium \
+    && chown -R vscode:vscode /workspace /opt/playwright
+USER vscode
+RUN cargo build --locked --no-default-features -p latch-automation -p latch-web-bridge
+CMD ["cargo", "run", "--locked", "-p", "latch-automation", "--bin", "latch-automation", "--", "test-e2e-worker"]
