@@ -1,0 +1,8 @@
+---
+import { LockKeyhole, Sun, Moon, ArrowRight, ArrowUpRight, Search, Terminal, Monitor, Globe, Folder, Plus, Menu, X, Copy, Check, BookOpen, ShieldCheck, GitBranch, ChevronLeft, ChevronRight } from 'lucide-react';
+const icons = { lock: LockKeyhole, github: GitBranch, sun: Sun, moon: Moon, arrow: ArrowRight, external: ArrowUpRight, search: Search, terminal: Terminal, monitor: Monitor, globe: Globe, folder: Folder, plus: Plus, menu: Menu, close: X, copy: Copy, check: Check, book: BookOpen, shield: ShieldCheck, git: GitBranch, previous: ChevronLeft, next: ChevronRight };
+interface Props { name: keyof typeof icons; size?: number; class?: string }
+const { name, size = 20, class: className } = Astro.props;
+const Icon = icons[name];
+---
+<Icon size={size} strokeWidth={1.7} aria-hidden="true" className={className} />

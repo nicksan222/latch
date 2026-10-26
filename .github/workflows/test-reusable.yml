@@ -1,0 +1,218 @@
+name: 🧪 Checks
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  CI: 'true'
+  CARGO_TERM_COLOR: always
+  CARGO_BUILD_JOBS: '2'
+
+jobs:
+  secrets:
+    name: 🔎 Publication secret scan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Scan source with pinned Gitleaks
+        run: |
+          curl --fail --location --retry 3 https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz --output "$RUNNER_TEMP/gitleaks.tar.gz"
+          printf '%s  %s\n' '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb' "$RUNNER_TEMP/gitleaks.tar.gz" | sha256sum --check
+          tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP" gitleaks
+          "$RUNNER_TEMP/gitleaks" dir . --redact=100
+
+  javascript:
+    name: 🧹 Quality and frontend
+    runs-on: ubuntu-24.04
+    # Cold builds and browser system-package downloads share this job budget.
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.4.4'
+      - run: bun install --frozen-lockfile
+      - name: Select Rust and install headless dependencies
+        run: |
+          rustup show active-toolchain
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y pkg-config libssl-dev libxcb1-dev libx11-dev
+      - name: Nonmutating quality checks
+        run: |
+          bun run format:check
+          bun run lint
+          bun run typecheck
+          bun run fallow
+          bun run react-doctor
+          bun run audit
+      - name: Frontend and development-tool tests
+        run: |
+          bun run test:quality
+          bun run test
+          bun run test:dev
+      - name: Install browser and Linux browser dependencies
+        run: bunx --no-install playwright install --with-deps chromium
+      - name: Install Firefox and verify native login integration
+        run: |
+          bunx --no-install playwright install-deps firefox
+          xvfb-run -a bun run test:browser:native
+      - run: bun run test:e2e
+      - run: bun run build:desktop
+      - name: Upload desktop-browser failure evidence only
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: desktop-browser-failure-${{ github.run_attempt }}
+          path: |
+            .dev/test-results/
+          # .dev is hidden; only the explicit allowlisted path are eligible.
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 3
+
+  rust:
+    name: 🦀 Linux feature contracts, Rust and protocol
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      CARGO_TARGET_DIR: /home/runner/.cache/latch-targets/ci-headless
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.4.4'
+      - name: Install headless native dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y pkg-config libssl-dev libxcb1-dev libx11-dev
+      - name: Select repository Rust toolchain
+        # rustup reads the exact channel/components from rust-toolchain.toml.
+        run: |
+          rustup show active-toolchain
+          rustc --version
+      - run: bun install --frozen-lockfile
+      - run: bun run check:protocol
+      - run: bun run check:rust
+      # Feature inventory rejects empty/misspelled selectors before a false green.
+      - run: bun run test:features
+      - run: bun run test:rust
+      - run: bun run test:seed
+
+  macos-features:
+    name: 🍎 macOS ${{ matrix.arch }} headless Rust checks
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            arch: arm64
+            host: aarch64-apple-darwin
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 55
+    env:
+      CARGO_TARGET_DIR: /Users/runner/.cache/latch-targets/ci-features
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.4.4'
+      - name: Select repository Rust toolchain
+        run: |
+          rustup show active-toolchain
+          rustc --version
+          rustc -vV | grep -F 'host: ${{ matrix.host }}'
+      - run: bun install --frozen-lockfile
+      - name: Install Firefox and verify native login integration
+        run: bun run test:browser:native
+      - name: Build and check the native desktop
+        run: |
+          bun run build:desktop
+          bun run check:desktop
+      - name: Compile Rust workspace without native desktop
+        run: cargo check --locked --workspace --exclude latch-desktop --exclude latch-web-bridge --no-default-features
+      # This command needs Node, Cargo and Git, not frontend/native dependencies.
+      - name: Real Git, encrypted vault and adapter feature scenarios
+        run: bun run test:features rpc git vault profiles secrets environment import-export history recipients totp passwords
+
+  linux-arm64:
+    name: 🐧 Linux arm64 browser-session contracts
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 35
+    env:
+      CARGO_TARGET_DIR: /home/runner/.cache/latch-targets/ci-arm64
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.4.4'
+      - name: Select repository Rust toolchain and verify architecture
+        run: |
+          rustup show active-toolchain
+          rustc --version
+          rustc -vV | grep -F 'host: aarch64-unknown-linux-gnu'
+      - name: Install headless native dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y pkg-config libssl-dev libxcb1-dev libx11-dev
+      - run: bun install --frozen-lockfile
+      - name: Install Firefox and verify native login integration
+        run: |
+          bunx --no-install playwright install-deps firefox
+          xvfb-run -a bun run test:browser:native
+      - name: Browser session contracts on native arm64
+        run: bun run test:features browser
+
+  desktop:
+    name: 🖥️ Linux desktop
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build local development image
+        run: docker build --file .devcontainer/Dockerfile --tag latch-ci-desktop .
+      - name: Build, test, and lint the native desktop
+        # Root is confined to this disposable container/runner. Anonymous volumes
+        # keep root-owned node_modules and build outputs off the checkout mount.
+        # No Docker socket, credentials, user config, or vault is mounted.
+        run: |
+          docker run --rm --init --shm-size=1g \
+            --mount "type=bind,source=$GITHUB_WORKSPACE,target=/workspace" \
+            --volume /workspace/node_modules \
+            --volume /workspace/target \
+            --workdir /workspace \
+            --env CI=true \
+            --env CARGO_BUILD_JOBS=2 \
+            --env CARGO_TARGET_DIR=/workspace/target \
+            latch-ci-desktop cargo run --locked -p latch-automation --bin latch-automation -- desktop-ci

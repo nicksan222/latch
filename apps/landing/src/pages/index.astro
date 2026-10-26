@@ -1,0 +1,73 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Icon from '../components/Icon.astro';
+import WorkflowDemo from '../components/WorkflowDemo.astro';
+import { resolveSite, withBase } from '../lib/site.mjs';
+import '../styles/home.css';
+import '../styles/closing.css';
+const { repository } = resolveSite();
+const readme = `${repository}#readme`;
+const resources = [
+  { title: 'Get it running', text: 'Installation & your first vault', icon: 'book' as const },
+  { title: 'Use it in your shell', text: 'Environment variables & CLI', icon: 'terminal' as const },
+  { title: 'Look under the hood', text: 'Encryption, trust & threat model', icon: 'shield' as const },
+  { title: 'Make it yours', text: 'Development & contributing', icon: 'git' as const }
+];
+---
+<SiteLayout home>
+  <main id="main-content" class="context-home">
+    <section class="latch-hero" aria-labelledby="home-title">
+      <div class="hero-orbit" aria-hidden="true">
+        <span class="orbit-tile orbit-terminal"><Icon name="terminal" size={32} /></span>
+        <span class="orbit-tile orbit-git"><Icon name="git" size={32} /></span>
+        <span class="orbit-tile orbit-browser"><Icon name="globe" size={32} /></span>
+        <span class="orbit-tile orbit-shield"><Icon name="shield" size={32} /></span>
+        <span class="orbit-tile orbit-folder"><Icon name="folder" size={32} /></span>
+        <span class="orbit-tile orbit-code"><Icon name="monitor" size={32} /></span>
+      </div>
+      <h1 id="home-title">The open-source<br />home for your<br />developer secrets.</h1>
+      <p>One encrypted vault. Every project, credential, and environment.<br class="hero-break" /> On your machine. Backed by Git. Ready for your terminal.</p>
+      <div class="hero-actions"><a class="button-primary" href={`${repository}/releases/latest`}><Icon name="monitor" size={18} />Download latest</a><a class="button-secondary" href={readme}>Read the README <Icon name="arrow" size={17} /></a></div>
+      <a class="hero-source" href={repository}><Icon name="git" size={15} /> Open source. Yours to inspect. <Icon name="external" size={14} /></a>
+    </section>
+    <figure class="hero-product"><iframe class="hero-demo" title="Interactive Latch app demo" src={withBase(import.meta.env.BASE_URL, 'demo/')} loading="lazy" allow="clipboard-write"></iframe><figcaption>Try it: switch projects, filter entries, reveal a pretend password. <a href={withBase(import.meta.env.BASE_URL, 'demo/')} target="_blank" rel="noopener">Open demo <Icon name="external" size={12} /></a></figcaption></figure>
+    <div class="home-capabilities" aria-label="Available interfaces"><span><Icon name="monitor" size={17} />Desktop app</span><span><Icon name="terminal" size={17} />Command line</span><span><Icon name="globe" size={17} />Isolated browsers</span><span><Icon name="git" size={17} />Git-backed vault</span></div>
+    <div class="workflow-heading"><h2>Less copy-paste.<br />More getting things done.</h2><p>Give a command the environment it needs. Switch projects without mixing credentials. See Latch work in real CLI recordings.</p></div>
+    <section class="context-story" aria-label="Try Latch’s project workflow">
+      <WorkflowDemo />
+    </section>
+    <section class="git-story" aria-labelledby="git-title">
+      <div class="git-story-editorial">
+        <h2 id="git-title">Encrypted files.<br /><span>Ordinary Git.</span></h2>
+        <div class="git-story-copy">
+          <p>Your vault is a repository. Latch encrypts the contents before writing them, and Git gives you history and a remote of your choice.</p>
+          <a class="text-link" href={readme}>How Git sync works <Icon name="arrow" size={18} /></a>
+        </div>
+      </div>
+      <figure class="vault-repository" aria-label="Example encrypted vault filenames">
+        <div class="vault-repository-header"><Icon name="git" size={20} /><span>Your vault, in Git</span><Icon name="lock" size={17} /></div>
+        <div class="vault-repository-files">
+          <div class="vault-directory"><Icon name="folder" size={19} /><code>profiles/</code></div>
+          <div class="vault-file"><code>profile.age</code><span>Encrypted</span></div>
+          <div class="vault-file"><code>entry.age</code><span>Encrypted</span></div>
+        </div>
+        <figcaption><Icon name="shield" size={17} />Ciphertext in the repository</figcaption>
+      </figure>
+    </section>
+    <section class="home-guide-index" aria-labelledby="guide-index-title">
+      <div class="guide-index-heading">
+        <h2 id="guide-index-title">The rest is<br /><span>in the README.</span></h2>
+        <p>Start with a vault.<br />Stay for the details.</p>
+      </div>
+      <nav aria-label="Explore the project">
+        {resources.map(({title,text,icon}) => (
+          <a href={readme}>
+            <Icon name={icon} size={22} />
+            <div><h3>{title}</h3><p>{text}</p></div>
+            <Icon name="arrow" size={20} />
+          </a>
+        ))}
+      </nav>
+    </section>
+  </main>
+</SiteLayout>

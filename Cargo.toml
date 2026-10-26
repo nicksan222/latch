@@ -1,0 +1,19 @@
+[workspace]
+resolver = "3"
+members = ["tooling/automation", "tooling/web-bridge", "packages/rpc", "packages/core", "apps/cli", "apps/desktop/src-tauri"]
+default-members = ["packages/core", "apps/cli"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[patch.crates-io]
+# Upstream PR #14: make the proc_macro re-export valid on future Rust versions.
+proc-macro-error2 = { path = "tooling/patches/proc-macro-error2-2.0.1", version = "=2.0.1" }
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+strip = true

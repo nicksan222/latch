@@ -1,0 +1,10 @@
+{
+  "name": "@latch/quality",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "check": "node conventions.mjs",
+    "test": "node --test *.test.mjs"
+  },
+  "type": "module"
+}

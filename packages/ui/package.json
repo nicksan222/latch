@@ -1,0 +1,31 @@
+{
+  "name": "@latch/ui",
+  "version": "0.1.0",
+  "dependencies": {
+    "@base-ui/react": "^1.9.0",
+    "class-variance-authority": "^0.7.1",
+    "lucide-react": "^1.61.0",
+    "tailwind-merge": "^3.7.0"
+  },
+  "exports": {
+    "./styles.css": "./src/styles.css",
+    "./utils": "./src/utils.ts",
+    "./visible-animation": "./src/visible-animation.ts",
+    "./morph-icon": "./src/morph-icon.tsx",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./*": "./src/components/*.tsx",
+    "./anchored-copy-toast": "./src/components/anchored-copy-toast.ts",
+    "./dialog-styles": "./src/components/dialog-styles.ts",
+    "./sidebar-state": "./src/components/sidebar-state.ts",
+    "./toast-helpers": "./src/components/toast-helpers.ts",
+    "./toast.logic": "./src/components/toast.logic.ts",
+    "./color": "./src/color.ts",
+    "./brand": "./src/brand.ts"
+  },
+  "peerDependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "private": true,
+  "type": "module"
+}

@@ -1,0 +1,4 @@
+password: ENC[AES256_GCM,data:abc,iv:def,tag:ghi,type:str]
+sops:
+  mac: ENC[AES256_GCM,data:xyz,iv:x,tag:y,type:str]
+  version: 3.8.1

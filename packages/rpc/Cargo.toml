@@ -1,0 +1,21 @@
+[package]
+name = "latch-rpc"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Latch's standalone typed gRPC interface"
+build = "build.rs"
+
+[lib]
+name = "latch_rpc"
+
+[dependencies]
+prost = "0.14"
+tonic = { version = "0.14", features = ["transport"] }
+tonic-prost = "0.14"
+
+[build-dependencies]
+prost = "0.14"
+prost-types = "0.14"
+protoc-bin-vendored = "3"
+tonic-prost-build = "0.14"

@@ -1,0 +1,10 @@
+{
+  "name": "@latch/seeder",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "seed": "python3 seed-dev.py",
+    "test": "python3 -m unittest discover -p \"test_*.py\""
+  },
+  "type": "module"
+}

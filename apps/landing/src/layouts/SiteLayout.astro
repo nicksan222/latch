@@ -1,0 +1,16 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import { resolveSite, withBase } from '../lib/site.mjs';
+interface Props { title?: string; description?: string; home?: boolean }
+const { title, description = 'A local, Git-backed secret manager for developers. Encrypted vaults, project profiles, a CLI, and isolated browsers.', home = false } = Astro.props;
+const { repository } = resolveSite();
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const readme = `${repository}#readme`;
+---
+<!doctype html><html lang="en" class="dark"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>{title ? `${title} · Latch` : 'Latch — Your secrets. Every project.'}</title><meta name="description" content={description} /><meta name="color-scheme" content="dark light" /><meta property="og:title" content={title ? `${title} · Latch` : 'Latch — Your secrets. Every project.'} /><meta property="og:description" content={description} /><meta property="og:type" content="website" /><meta property="og:url" content={canonical} /><link rel="canonical" href={canonical} /><link rel="icon" type="image/svg+xml" href={withBase(import.meta.env.BASE_URL, 'favicon.svg')} /><script is:inline>try { document.documentElement.classList.toggle('dark', localStorage.getItem('latch-site-theme') !== 'light'); } catch {}</script></head><body class:list={[home && 'landing-page']}><a class="skip-link" href="#main-content">Skip to content</a><Header home={home} /><slot /><footer class="site-footer"><a class="footer-brand" href={withBase(import.meta.env.BASE_URL)}>Latch</a><p>An open-source, local, Git-backed secret manager.</p><a href={readme}>README</a>{repository && <a href={repository}>Source <span aria-hidden="true">↗</span></a>}</footer><script>
+const button = document.querySelector<HTMLButtonElement>('.theme-toggle')!;
+function updateLabel() { button.setAttribute('aria-label', document.documentElement.classList.contains('dark') ? 'Switch to light theme' : 'Switch to dark theme'); }
+updateLabel();
+button.addEventListener('click', () => { const dark = document.documentElement.classList.toggle('dark'); try { localStorage.setItem('latch-site-theme', dark ? 'dark' : 'light'); } catch {} updateLabel(); });
+</script></body></html>

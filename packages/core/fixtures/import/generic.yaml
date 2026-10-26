@@ -1,0 +1,7 @@
+LOG_LEVEL: info
+redis:
+  url: redis://fixture-yaml-redis:6379
+  tls: true
+hosts:
+  - a.example.test
+  - b.example.test

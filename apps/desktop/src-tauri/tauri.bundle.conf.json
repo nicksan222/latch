@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "build": {
+    "beforeBuildCommand": "cargo run --locked --manifest-path ../../Cargo.toml -p latch-automation --bin latch-automation -- desktop-bundle-prep"
+  },
+  "bundle": {
+    "linux": {
+      "deb": {
+        "depends": ["git"],
+        "files": {
+          "/usr/bin/latch": "binaries/latch",
+          "/usr/share/doc/latch/copyright": "../../../LICENSE"
+        }
+      },
+      "rpm": {
+        "depends": ["git"],
+        "files": {
+          "/usr/bin/latch": "binaries/latch",
+          "/usr/share/doc/latch/copyright": "../../../LICENSE"
+        }
+      }
+    },
+    "license": "MIT",
+    "resources": {
+      "../../../LICENSE": "LICENSE"
+    }
+  }
+}

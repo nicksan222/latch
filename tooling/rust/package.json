@@ -1,0 +1,17 @@
+{
+  "name": "@latch/rust-tooling",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "check": "cargo run --locked --manifest-path ../../Cargo.toml -p latch-automation --bin latch-automation -- rust check",
+    "check:desktop": "cargo run --locked --manifest-path ../../Cargo.toml -p latch-automation --bin latch-automation -- rust all --desktop",
+    "check:rust": "cargo run --locked --manifest-path ../../Cargo.toml -p latch-automation --bin latch-automation -- rust all",
+    "clippy": "cargo run --locked --manifest-path ../../Cargo.toml -p latch-automation --bin latch-automation -- rust clippy",
+    "docs": "cargo run --locked --manifest-path ../../Cargo.toml -p latch-automation --bin latch-automation -- rust docs",
+    "format": "cargo run --locked --manifest-path ../../Cargo.toml -p latch-automation --bin latch-automation -- rust format",
+    "format:check": "cargo run --locked --manifest-path ../../Cargo.toml -p latch-automation --bin latch-automation -- rust format-check",
+    "quality": "cargo run --locked --manifest-path ../../Cargo.toml -p latch-automation --bin latch-automation -- rust quality",
+    "test": "cargo run --locked --manifest-path ../../Cargo.toml -p latch-automation --bin latch-automation -- rust test"
+  },
+  "type": "module"
+}
