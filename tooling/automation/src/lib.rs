@@ -1,4 +1,6 @@
 //! Rust automation and subprocess fixtures for the workspace.
+#[cfg(feature = "containers")]
+pub mod containers;
 pub mod demo;
 pub mod fixtures;
 pub mod native_browser;

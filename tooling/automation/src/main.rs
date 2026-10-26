@@ -11,6 +11,12 @@ struct Cli {
 enum Task {
     /// Exercise the managed browser through Rust gRPC and native UI drivers.
     TestBrowser,
+    /// Run a Linux test suite in its declared Docker environment.
+    #[cfg(feature = "containers")]
+    TestContainer {
+        #[arg(value_enum)]
+        suite: latch_automation::containers::Suite,
+    },
     /// Regenerate the README usage GIF in an isolated desktop.
     #[command(disable_help_flag = true)]
     Demo {
@@ -34,6 +40,8 @@ enum Task {
 }
 fn main() -> anyhow::Result<()> {
     match Cli::parse().command {
+        #[cfg(feature = "containers")]
+        Task::TestContainer { suite } => latch_automation::containers::run(suite),
         Task::TestBrowser => latch_automation::native_browser::run(),
         Task::Demo { args } => latch_automation::demo::run(args),
         Task::ReleaseBuild { version } => latch_automation::release::build(&version),

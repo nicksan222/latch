@@ -1,0 +1,16 @@
+# Shared stages; the Rust runner appends exactly one Dockerfile.<suite>.
+FROM node:24-bookworm-slim AS node
+FROM oven/bun:1.4.4 AS bun
+FROM mcr.microsoft.com/devcontainers/rust:1-trixie AS test-base
+COPY --from=node /usr/local/bin/node /usr/local/bin/node
+COPY --from=bun /usr/local/bin/bun /usr/local/bin/bun
+RUN ln -s bun /usr/local/bin/bunx \
+    && apt-get update && apt-get install -y --no-install-recommends \
+      pkg-config libssl-dev libxcb1-dev libx11-dev xvfb xauth dbus-x11 \
+      libgtk-3-0t64 libasound2t64 libx11-xcb1 libxt6t64 \
+      fonts-dejavu fonts-liberation ca-certificates git \
+    && rm -rf /var/lib/apt/lists/*
+ENV CARGO_BUILD_JOBS=2 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0
+WORKDIR /workspace
+COPY source/rust-toolchain.toml ./rust-toolchain.toml
+RUN rustup show && mkdir -p /workspace && chown vscode:vscode /workspace
