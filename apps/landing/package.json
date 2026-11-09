@@ -14,17 +14,17 @@
     "test:site": "node --test src/lib/*.test.mjs && astro check && astro build && node tooling/verify-build.mjs && playwright test --config playwright.config.mjs"
   },
   "dependencies": {
-    "@astrojs/react": "^7.1.1",
+    "@astrojs/react": "^7.1.4",
     "@latch/ui": "*",
-    "astro": "^7.4.2",
-    "lucide-react": "^1.61.0",
+    "astro": "^7.4.7",
+    "lucide-react": "^1.70.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
-    "@playwright/test": "^1.64.1",
-    "@tailwindcss/vite": "^4.3.3",
+    "@playwright/test": "^1.65.0",
+    "@tailwindcss/vite": "^4.3.4",
     "typescript": "^6.0.3"
   }
 }
