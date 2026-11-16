@@ -9,7 +9,7 @@ publish = false
 latch-rpc = { path = "../../packages/rpc" }
 prost = "0.14"
 latch-core = { path = "../../packages/core" }
-axum = "=0.8.6"
+axum = "=0.8.9"
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "signal", "sync", "time"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
